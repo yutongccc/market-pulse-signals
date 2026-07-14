@@ -1,2 +1,59 @@
-<!doctype html><meta charset="utf-8"><title>市场脉搏 · 个股信号面板</title>
-<p>面板初始化中——首次数据将在下一个交易日盘后生成。</p>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>市场脉搏 · 个股信号面板</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+     background:#f4f5f7;color:#222;font-size:14px;line-height:1.6;}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:860px;margin:0 auto;padding:14px;}
+header.site{background:#1f2a44;color:#fff;border-radius:10px;padding:16px 18px;margin-bottom:12px;}
+header.site h1{font-size:18px;}
+header.site .sub{color:#a9b4cc;font-size:12px;margin-top:4px;}
+.card{background:#fff;border:1px solid #eceef2;border-radius:10px;padding:12px 14px;margin-bottom:12px;}
+.card h2{font-size:14px;color:#1f2a44;margin-bottom:8px;}
+.up{color:#d23b3b;} .down{color:#1a9c4e;} .flat{color:#6b7280;}
+.dim{color:#9aa0aa;font-size:11px;}
+.scroll{overflow-x:auto;}
+table.panel{width:100%;border-collapse:collapse;font-size:13px;}
+table.panel td{padding:6px 8px;border-bottom:1px solid #f0f1f4;vertical-align:top;}
+table.panel td.k{color:#666;width:42%;}
+footer.site{color:#999;font-size:11px;line-height:1.7;padding:10px 4px 30px;}
+.stale{background:#fff7e6;border:1px solid #f5d38f;color:#8a6d1f;border-radius:8px;
+       padding:8px 12px;font-size:12px;margin-bottom:12px;}
+/* 总览行 */
+.lhead,.lrow{display:grid;grid-template-columns:minmax(96px,1.4fr) repeat(7,minmax(58px,1fr));
+             gap:4px;align-items:center;min-width:620px;}
+.lhead{color:#888;font-size:11px;padding:6px 8px;}
+a.lrow{background:#fff;border:1px solid #eceef2;border-radius:8px;padding:9px 8px;margin:5px 0;
+       font-size:12px;display:grid;}
+a.lrow:active{background:#f0f2f6;}
+.lrow .nm{font-weight:600;color:#1f2a44;}
+.lrow .cd{color:#9aa0aa;font-size:10px;display:block;}
+/* 五维底稿 */
+.five{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px;}
+.q{background:#fafbfc;border:1px solid #eceef2;border-radius:8px;padding:9px 11px;font-size:12px;}
+.q b{display:block;color:#1f2a44;margin-bottom:3px;font-size:12px;}
+.q.todo{color:#b3b9c4;}
+/* 多空天平 */
+.scale{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.side{border-radius:8px;padding:9px 11px;font-size:12px;}
+.side.bull{background:#fbf4f4;border:1px solid #f4c5c5;}
+.side.bear{background:#eefaf2;border:1px solid #bfe6cd;}
+.side b{display:block;margin-bottom:4px;}
+.side.bull b{color:#8a1f1f;} .side.bear b{color:#155f33;}
+.light{margin:3px 0;}
+@media (max-width:480px){ .scale{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="site"><h1>📊 市场脉搏 · 个股信号面板</h1><div class="sub">更新: 2026-07-14 周二 16:34 北京时间 · 关注池 30 只 · RS排名=池内按"相对行业20日超额"降序 · 仅研究观察, 不构成任何投资建议</div></header><div class="scroll"><div class="lhead"><span>名称</span><span>价格</span><span>涨跌</span><span>MA20</span><span>RSI14</span><span>RS排名</span><span>PE分位</span><span>信号灯</span></div><a class="lrow" href="s/601857.html"><span><span class="nm">中国石油</span><span class="cd">601857 · 能源(石油石化)</span></span><span>9.66</span><span><span class="up">+4.21%</span></span><span>上方</span><span>54</span><span>14/30</span><span>71%</span><span>—</span></a><a class="lrow" href="s/601088.html"><span><span class="nm">中国神华</span><span class="cd">601088 · 周期(有色/煤炭/钢铁/化工)</span></span><span>42.65</span><span><span class="up">+4.00%</span></span><span>上方</span><span>56</span><span>12/30</span><span>91%</span><span>🔴1 🟢1</span></a><a class="lrow" href="s/300750.html"><span><span class="nm">宁德时代</span><span class="cd">300750 · 新能源</span></span><span>359.06</span><span><span class="up">+2.95%</span></span><span>下方</span><span>39</span><span>16/30</span><span>40%</span><span>—</span></a><a class="lrow" href="s/600938.html"><span><span class="nm">中国海油</span><span class="cd">600938 · 能源(石油石化)</span></span><span>28.82</span><span><span class="up">+2.38%</span></span><span>上方</span><span>44</span><span>23/30</span><span>75%</span><span>🔴1</span></a><a class="lrow" href="s/000333.html"><span><span class="nm">美的集团</span><span class="cd">000333 · 消费</span></span><span>80.4</span><span><span class="up">+1.79%</span></span><span>上方</span><span>61</span><span>7/30</span><span>71%</span><span>🔴1</span></a><a class="lrow" href="s/601668.html"><span><span class="nm">中国建筑</span><span class="cd">601668 · 地产/基建</span></span><span>4.64</span><span><span class="up">+1.09%</span></span><span>上方</span><span>54</span><span>18/30</span><span>85%</span><span>—</span></a><a class="lrow" href="s/600048.html"><span><span class="nm">保利发展</span><span class="cd">600048 · 地产/基建</span></span><span>4.72</span><span><span class="up">+1.07%</span></span><span>下方</span><span>41</span><span>24/30</span><span>15%</span><span>🔴1</span></a><a class="lrow" href="s/600036.html"><span><span class="nm">招商银行</span><span class="cd">600036 · 银行/非银金融</span></span><span>37.25</span><span><span class="up">+1.00%</span></span><span>上方</span><span>57</span><span>20/30</span><span>42%</span><span>—</span></a><a class="lrow" href="s/600519.html"><span><span class="nm">贵州茅台</span><span class="cd">600519 · 消费</span></span><span>1210.99</span><span><span class="up">+0.50%</span></span><span>上方</span><span>49</span><span>17/30</span><span>2%</span><span>🔴1</span></a><a class="lrow" href="s/688981.html"><span><span class="nm">中芯国际</span><span class="cd">688981 · 科技/半导体</span></span><span>163.58</span><span><span class="up">+0.34%</span></span><span>上方</span><span>61</span><span>1/30</span><span>100%</span><span>🔴1 🟢1</span></a><a class="lrow" href="s/601318.html"><span><span class="nm">中国平安</span><span class="cd">601318 · 银行/非银金融</span></span><span>49.53</span><span><span class="up">+0.10%</span></span><span>下方</span><span>45</span><span>25/30</span><span>2%</span><span>🔴1 🟢1</span></a><a class="lrow" href="s/600276.html"><span><span class="nm">恒瑞医药</span><span class="cd">600276 · 医药生物</span></span><span>55.75</span><span><span class="flat">+0.00%</span></span><span>上方</span><span>62</span><span>6/30</span><span>7%</span><span>🔴2</span></a><a class="lrow" href="s/688256.html"><span><span class="nm">寒武纪</span><span class="cd">688256 · 科技/半导体</span></span><span>1390.0</span><span><span class="down">-0.71%</span></span><span>下方</span><span>50</span><span>10/30</span><span>81%</span><span>—</span></a><a class="lrow" href="s/600031.html"><span><span class="nm">三一重工</span><span class="cd">600031 · 工业/高端制造</span></span><span>18.71</span><span><span class="down">-0.80%</span></span><span>上方</span><span>51</span><span>8/30</span><span>3%</span><span>🔴1</span></a><a class="lrow" href="s/600030.html"><span><span class="nm">中信证券</span><span class="cd">600030 · 银行/非银金融</span></span><span>28.12</span><span><span class="down">-0.99%</span></span><span>下方</span><span>53</span><span>5/30</span><span>9%</span><span>🔴2 🟢1</span></a><a class="lrow" href="s/000858.html"><span><span class="nm">五粮液</span><span class="cd">000858 · 消费</span></span><span>72.82</span><span><span class="down">-1.18%</span></span><span>下方</span><span>37</span><span>22/30</span><span>90%</span><span>🟢1</span></a><a class="lrow" href="s/000063.html"><span><span class="nm">中兴通讯</span><span class="cd">000063 · AI应用/传媒</span></span><span>40.04</span><span><span class="down">-1.21%</span></span><span>上方</span><span>59</span><span>3/30</span><span>100%</span><span>🔴1 🟢1</span></a><a class="lrow" href="s/002027.html"><span><span class="nm">分众传媒</span><span class="cd">002027 · AI应用/传媒</span></span><span>4.75</span><span><span class="down">-1.25%</span></span><span>下方</span><span>41</span><span>26/30</span><span>24%</span><span>🟢2</span></a><a class="lrow" href="s/601899.html"><span><span class="nm">紫金矿业</span><span class="cd">601899 · 周期(有色/煤炭/钢铁/化工)</span></span><span>27.36</span><span><span class="down">-1.30%</span></span><span>下方</span><span>46</span><span>11/30</span><span>1%</span><span>🔴1 🟢1</span></a><a class="lrow" href="s/300760.html"><span><span class="nm">迈瑞医疗</span><span class="cd">300760 · 医药生物</span></span><span>139.68</span><span><span class="down">-1.34%</span></span><span>下方</span><span>46</span><span>29/30</span><span>3%</span><span>🔴1 🟢2</span></a><a class="lrow" href="s/603259.html"><span><span class="nm">药明康德</span><span class="cd">603259 · 医药生物</span></span><span>120.24</span><span><span class="down">-2.48%</span></span><span>上方</span><span>59</span><span>2/30</span><span>41%</span><span>🔴1</span></a><a class="lrow" href="s/600309.html"><span><span class="nm">万华化学</span><span class="cd">600309 · 周期(有色/煤炭/钢铁/化工)</span></span><span>66.95</span><span><span class="down">-2.56%</span></span><span>下方</span><span>37</span><span>13/30</span><span>45%</span><span>🟢1</span></a><a class="lrow" href="s/002230.html"><span><span class="nm">科大讯飞</span><span class="cd">002230 · AI应用/传媒</span></span><span>41.9</span><span><span class="down">-2.76%</span></span><span>上方</span><span>48</span><span>9/30</span><span>2%</span><span>🔴1</span></a><a class="lrow" href="s/600760.html"><span><span class="nm">中航沈飞</span><span class="cd">600760 · 军工/国防</span></span><span>39.12</span><span><span class="down">-3.05%</span></span><span>下方</span><span>37</span><span>27/30</span><span>5%</span><span>🔴1 🟢2</span></a><a class="lrow" href="s/002594.html"><span><span class="nm">比亚迪</span><span class="cd">002594 · 工业/高端制造</span></span><span>86.98</span><span><span class="down">-3.36%</span></span><span>上方</span><span>48</span><span>15/30</span><span>76%</span><span>—</span></a><a class="lrow" href="s/300124.html"><span><span class="nm">汇川技术</span><span class="cd">300124 · 工业/高端制造</span></span><span>60.95</span><span><span class="down">-3.91%</span></span><span>下方</span><span>36</span><span>19/30</span><span>30%</span><span>🟢1</span></a><a class="lrow" href="s/601012.html"><span><span class="nm">隆基绿能</span><span class="cd">601012 · 新能源</span></span><span>11.63</span><span><span class="down">-3.96%</span></span><span>下方</span><span>32</span><span>21/30</span><span>62%</span><span>🔴1 🟢1</span></a><a class="lrow" href="s/002371.html"><span><span class="nm">北方华创</span><span class="cd">002371 · 科技/半导体</span></span><span>764.3</span><span><span class="down">-4.58%</span></span><span>下方</span><span>50</span><span>4/30</span><span>98%</span><span>🔴1 🟢2</span></a><a class="lrow" href="s/300274.html"><span><span class="nm">阳光电源</span><span class="cd">300274 · 新能源</span></span><span>108.0</span><span><span class="down">-5.92%</span></span><span>下方</span><span>27</span><span>30/30</span><span>61%</span><span>🔴1 🟢2</span></a><a class="lrow" href="s/600893.html"><span><span class="nm">航发动力</span><span class="cd">600893 · 军工/国防</span></span><span>33.13</span><span><span class="down">-7.38%</span></span><span>下方</span><span>30</span><span>28/30</span><span>66%</span><span>🟢2</span></a></div>
+<footer class="site">本报告由「市场脉搏」自动生成,基于公开数据与新闻的研究性分析,不构成任何投资建议,据此操作风险自负。文中提及的行业代表公司仅为观察锚点, 非投资推荐。数据源: akshare / yfinance / 公开新闻。<br>数据来源: akshare(东方财富/新浪/百度股市通) · 申万行业指数(RS基准) · 前复权日线<br>生成时间: 2026-07-14 周二 16:34 北京时间</footer>
+</div>
+</body>
+</html>
