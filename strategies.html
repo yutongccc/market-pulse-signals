@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>策略回测总览 · 市场脉搏</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+     background:#f4f5f7;color:#222;font-size:14px;line-height:1.6;}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:860px;margin:0 auto;padding:14px;}
+header.site{background:#1f2a44;color:#fff;border-radius:10px;padding:16px 18px;margin-bottom:12px;}
+header.site h1{font-size:18px;}
+header.site .sub{color:#a9b4cc;font-size:12px;margin-top:4px;}
+.card{background:#fff;border:1px solid #eceef2;border-radius:10px;padding:12px 14px;margin-bottom:12px;}
+.card h2{font-size:14px;color:#1f2a44;margin-bottom:8px;}
+.up{color:#d23b3b;} .down{color:#1a9c4e;} .flat{color:#6b7280;}
+.dim{color:#9aa0aa;font-size:11px;}
+.scroll{overflow-x:auto;}
+table.panel{width:100%;border-collapse:collapse;font-size:13px;}
+table.panel td{padding:6px 8px;border-bottom:1px solid #f0f1f4;vertical-align:top;}
+table.panel td.k{color:#666;width:42%;}
+footer.site{color:#999;font-size:11px;line-height:1.7;padding:10px 4px 30px;}
+.stale{background:#fff7e6;border:1px solid #f5d38f;color:#8a6d1f;border-radius:8px;
+       padding:8px 12px;font-size:12px;margin-bottom:12px;}
+/* 总览行 */
+.lhead,.lrow{display:grid;grid-template-columns:minmax(96px,1.4fr) repeat(7,minmax(58px,1fr));
+             gap:4px;align-items:center;min-width:620px;}
+.lhead{color:#888;font-size:11px;padding:6px 8px;}
+a.lrow{background:#fff;border:1px solid #eceef2;border-radius:8px;padding:9px 8px;margin:5px 0;
+       font-size:12px;display:grid;}
+a.lrow:active{background:#f0f2f6;}
+.lrow .nm{font-weight:600;color:#1f2a44;}
+.lrow .cd{color:#9aa0aa;font-size:10px;display:block;}
+/* 🎯 今日焦点 + reason chips(面板v2) */
+.chips{display:flex;flex-wrap:wrap;gap:4px;align-items:center;}
+.chip{display:inline-block;background:#eef1f7;border:1px solid #dde3ee;border-radius:999px;
+      padding:2px 9px;font-size:11px;color:#3d4a68;white-space:nowrap;}
+a.fcard{display:block;background:#fff;border:1px solid #eceef2;border-left:3px solid #1f2a44;
+        border-radius:8px;padding:8px 10px;margin:6px 0;}
+a.fcard:active{background:#f0f2f6;}
+.fcard .frow{display:flex;justify-content:space-between;gap:8px;margin-bottom:5px;
+             font-size:13px;flex-wrap:wrap;}
+.fcard .nm{font-weight:600;color:#1f2a44;}
+/* 筛选条(默认 hidden, 有 JS 才显示——无 JS 不出死控件) */
+.filters{margin:2px 0 8px;}
+.filters .chips{margin:4px 0;}
+.filters .chip{cursor:pointer;}
+.chip.on{background:#1f2a44;border-color:#1f2a44;color:#fff;}
+/* 行业分组小节头(排序激活时被 JS 隐藏) */
+.ghead{color:#4a5470;font-size:12px;font-weight:600;padding:10px 8px 2px;min-width:620px;}
+/* v3: 两层池段落头 + 全景池行业 <details> 折叠组 + 搜索框 + 焦点"更多"折叠 */
+.sect{color:#1f2a44;font-size:13px;font-weight:700;padding:14px 8px 2px;min-width:620px;}
+details.grp{min-width:620px;border-bottom:1px solid #eceef2;}
+details.grp>summary{cursor:pointer;color:#4a5470;font-size:12px;font-weight:600;
+  padding:9px 8px;list-style-position:inside;}
+details.grp>summary:hover{background:#f0f2f6;}
+details.fmore>summary{cursor:pointer;color:#4a5470;font-size:12px;padding:6px 0;}
+.searchbox{margin:2px 0 8px;}
+.searchbox input{width:100%;max-width:340px;padding:7px 12px;font-size:13px;
+  border:1px solid #dde3ee;border-radius:8px;background:#fff;color:#222;}
+.building{background:#eef4fb;border:1px solid #bcd4ef;color:#1f4c7a;border-radius:8px;
+  padding:8px 12px;font-size:12px;margin-bottom:12px;}
+.corebadge{display:inline-block;background:#fff3d6;border:1px solid #e8c876;color:#7a5b12;
+  border-radius:999px;padding:1px 9px;font-size:11px;vertical-align:2px;}
+/* 可排序表头: 仅 JS 激活(.js)后才有手势/箭头, 无 JS 不出可点假象 */
+.js .sh{cursor:pointer;}
+.js .sh::after{content:" ⇅";color:#b9c0cf;}
+.js .sh.desc::after{content:" ↓";color:#1f2a44;}
+.js .sh.asc::after{content:" ↑";color:#1f2a44;}
+/* 五维底稿 */
+.five{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px;}
+.q{background:#fafbfc;border:1px solid #eceef2;border-radius:8px;padding:9px 11px;font-size:12px;}
+.q b{display:block;color:#1f2a44;margin-bottom:3px;font-size:12px;}
+.q.todo{color:#b3b9c4;}
+/* 多空天平 */
+.scale{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.side{border-radius:8px;padding:9px 11px;font-size:12px;}
+.side.bull{background:#fbf4f4;border:1px solid #f4c5c5;}
+.side.bear{background:#eefaf2;border:1px solid #bfe6cd;}
+.side b{display:block;margin-bottom:4px;}
+.side.bull b{color:#8a1f1f;} .side.bear b{color:#155f33;}
+.light{margin:3px 0;}
+@media (max-width:480px){ .scale{grid-template-columns:1fr;} }
+
+table.l2s{width:100%;border-collapse:collapse;font-size:12px;min-width:640px;}
+table.l2s th,table.l2s td{padding:5px 7px;border-bottom:1px solid #f0f1f4;text-align:right;
+  white-space:nowrap;vertical-align:top;}
+table.l2s th{color:#888;font-weight:600;font-size:11px;}
+table.l2s td:first-child,table.l2s th:first-child,
+table.l2s td:nth-child(2),table.l2s th:nth-child(2){text-align:left;}
+table.l2s tr.lown td{color:#b3b9c4;}
+.l2s-note{background:#fff7e6;border:1px solid #f5d38f;color:#8a6d1f;border-radius:8px;
+  padding:7px 11px;font-size:11.5px;margin-bottom:6px;}
+.mtwarn{background:#fdeeee;border:1px solid #f0b9b9;color:#7a1f1f;border-radius:10px;
+  padding:11px 14px;font-size:12.5px;line-height:1.7;margin-bottom:12px;}
+.tchips{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px;}
+a.tchip{display:inline-block;background:#eef1f7;border:1px solid #dde3ee;border-radius:8px;
+  padding:3px 9px;font-size:11.5px;color:#3d4a68;}
+a.tchip:active{background:#e2e7f2;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="dim" style="margin-bottom:8px;"><a href="index.html">← 返回个股信号总览</a></div><header class="site"><h1>⚡ 策略回测总览(研究底稿)</h1><div class="sub">更新: 2026-07-15 周三 15:59 北京时间 · 全池 300 只 × 10 策略 · 参数一律文献默认、未逐股调优 · 非荐股</div></header><div class="mtwarn"><b>⚠️ 多重检验陷阱(本层最大风险, 请先读)</b><br>本页共 <b>3000</b> 个(股×策略)组合。按 5% 显著性水平, 即便策略毫无预测力, 纯随机也会有<b>约 150 个(≈5%)</b>组合"看起来很灵"——所以<b>逐股的漂亮数字大概率是运气</b>。请只把它当先验: 看个股是否显著<b>偏离同策略全池中位</b>(锚), 并等 L2a 前向台账用真实持仓验证。</div><div class="card"><div class="l2s-note">历史模拟 ≠ 未来 · 单股样本极易过拟合 · 参数一律文献默认值、未做任何逐股调优 · 仅研究底稿, 非荐股。</div></div><div class="card"><h2>⚡ MA20趋势</h2><div class="dim" style="margin-bottom:6px;">收盘上穿MA20入 / 下穿离场(20日=中期趋势分界+机构风控线)</div><div class="scroll"><table class="panel"><tr><td class="k">全池覆盖</td><td>300 只 · 其中有交易 300 只</td></tr><tr><td class="k">n 分布(每股交易数)</td><td>中位 26 <span class="dim">(p25 24 ~ p75 29)</span></td></tr><tr><td class="k">胜率(仅有交易股)</td><td>中位 27% <span class="dim">(p25 22% ~ p75 35%)</span></td></tr><tr><td class="k">平均超额(仅有交易股)</td><td>中位 -0.29% <span class="dim">(p25 -1.18% ~ p75 +0.95%)</span></td></tr></table></div><div class="dim" style="margin-top:6px;">今日触发 42 只:</div><div class="tchips"><a class="tchip" href="s/300760.html">迈瑞医疗 <span class="dim">(n=25 胜率28%)</span></a><a class="tchip" href="s/601899.html">紫金矿业 <span class="dim">(n=24 胜率29%)</span></a><a class="tchip" href="s/000002.html">万科A <span class="dim">(n=25 胜率24%)</span></a><a class="tchip" href="s/000166.html">申万宏源 <span class="dim">(n=28 胜率25%)</span></a><a class="tchip" href="s/000301.html">东方盛虹 <span class="dim">(n=22 胜率41%)</span></a><a class="tchip" href="s/000596.html">古井贡酒 <span class="dim">(n=26 胜率19%)</span></a><a class="tchip" href="s/000708.html">中信特钢 <span class="dim">(n=30 胜率20%)</span></a><a class="tchip" href="s/000807.html">云铝股份 <span class="dim">(n=24 胜率42%)</span></a><a class="tchip" href="s/001965.html">招商公路 <span class="dim">(n=30 胜率27%)</span></a><a class="tchip" href="s/002352.html">顺丰控股 <span class="dim">(n=32 胜率31%)</span></a><a class="tchip" href="s/002384.html">东山精密 <span class="dim">(n=26 胜率35%)</span></a><a class="tchip" href="s/002415.html">海康威视 <span class="dim">(n=18 胜率39%)</span></a><a class="tchip" href="s/002532.html">天山铝业 <span class="dim">(n=18 胜率39%)</span></a><a class="tchip" href="s/002938.html">鹏鼎控股 <span class="dim">(n=18 胜率39%)</span></a><a class="tchip" href="s/003816.html">中国广核 <span class="dim">(n=30 胜率27%)</span></a><a class="tchip" href="s/300015.html">爱尔眼科 <span class="dim">(n=25 胜率24%)</span></a><a class="tchip" href="s/300122.html">智飞生物 <span class="dim">(n=28 胜率14%)</span></a><a class="tchip" href="s/300502.html">新易盛 <span class="dim">(n=21 胜率33%)</span></a><a class="tchip" href="s/300628.html">亿联网络 <span class="dim">(n=33 胜率24%)</span></a><a class="tchip" href="s/300866.html">安克创新 <span class="dim">(n=21 胜率38%)</span></a></div><details class="fmore"><summary>更多 22 只触发</summary><div class="tchips"><a class="tchip" href="s/600019.html">宝钢股份 <span class="dim">(n=31 胜率23%)</span></a><a class="tchip" href="s/600027.html">华电国际 <span class="dim">(n=29 胜率31%)</span></a><a class="tchip" href="s/600061.html">国投资本 <span class="dim">(n=30 胜率13%)</span></a><a class="tchip" href="s/600188.html">兖矿能源 <span class="dim">(n=25 胜率32%)</span></a><a class="tchip" href="s/600489.html">中金黄金 <span class="dim">(n=28 胜率25%)</span></a><a class="tchip" href="s/600547.html">山东黄金 <span class="dim">(n=21 胜率29%)</span></a><a class="tchip" href="s/600600.html">青岛啤酒 <span class="dim">(n=27 胜率22%)</span></a><a class="tchip" href="s/600741.html">华域汽车 <span class="dim">(n=25 胜率24%)</span></a><a class="tchip" href="s/600809.html">山西汾酒 <span class="dim">(n=26 胜率19%)</span></a><a class="tchip" href="s/600989.html">宝丰能源 <span class="dim">(n=28 胜率25%)</span></a><a class="tchip" href="s/601006.html">大秦铁路 <span class="dim">(n=24 胜率33%)</span></a><a class="tchip" href="s/601186.html">中国铁建 <span class="dim">(n=33 胜率24%)</span></a><a class="tchip" href="s/601336.html">新华保险 <span class="dim">(n=25 胜率28%)</span></a><a class="tchip" href="s/601377.html">兴业证券 <span class="dim">(n=25 胜率36%)</span></a><a class="tchip" href="s/601600.html">中国铝业 <span class="dim">(n=23 胜率35%)</span></a><a class="tchip" href="s/601601.html">中国太保 <span class="dim">(n=30 胜率17%)</span></a><a class="tchip" href="s/601618.html">中国中冶 <span class="dim">(n=24 胜率17%)</span></a><a class="tchip" href="s/601800.html">中国交建 <span class="dim">(n=32 胜率22%)</span></a><a class="tchip" href="s/601825.html">沪农商行 <span class="dim">(n=28 胜率25%)</span></a><a class="tchip" href="s/601898.html">中煤能源 <span class="dim">(n=27 胜率26%)</span></a><a class="tchip" href="s/601916.html">浙商银行 <span class="dim">(n=26 胜率23%)</span></a><a class="tchip" href="s/603369.html">今世缘 <span class="dim">(n=25 胜率12%)</span></a></div></details></div><div class="card"><h2>⚡ 双均线金叉(20/60)</h2><div class="dim" style="margin-bottom:6px;">MA20上穿MA60(金叉)入 / 下穿(死叉)出</div><div class="scroll"><table class="panel"><tr><td class="k">全池覆盖</td><td>300 只 · 其中有交易 299 只</td></tr><tr><td class="k">n 分布(每股交易数)</td><td>中位 5 <span class="dim">(p25 4 ~ p75 6)</span></td></tr><tr><td class="k">胜率(仅有交易股)</td><td>中位 40% <span class="dim">(p25 25% ~ p75 50%)</span></td></tr><tr><td class="k">平均超额(仅有交易股)</td><td>中位 -3.21% <span class="dim">(p25 -6.54% ~ p75 +7.26%)</span></td></tr></table></div><div class="dim" style="margin-top:6px;">今日触发 1 只:</div><div class="tchips"><a class="tchip" href="s/600276.html">恒瑞医药 <span class="dim">(样本不足)</span></a></div></div><div class="card"><h2>⚡ RSI超卖反弹</h2><div class="dim" style="margin-bottom:6px;">RSI&lt;30入 / RSI&gt;50或持满10bar出</div><div class="scroll"><table class="panel"><tr><td class="k">全池覆盖</td><td>300 只 · 其中有交易 297 只</td></tr><tr><td class="k">n 分布(每股交易数)</td><td>中位 5 <span class="dim">(p25 3 ~ p75 6)</span></td></tr><tr><td class="k">胜率(仅有交易股)</td><td>中位 60% <span class="dim">(p25 42% ~ p75 80%)</span></td></tr><tr><td class="k">平均超额(仅有交易股)</td><td>中位 +0.07% <span class="dim">(p25 -1.74% ~ p75 +2.53%)</span></td></tr></table></div><div class="dim" style="margin-top:6px;">今日触发 4 只:</div><div class="tchips"><a class="tchip" href="s/600893.html">航发动力 <span class="dim">(样本不足)</span></a><a class="tchip" href="s/002074.html">国轩高科 <span class="dim">(样本不足)</span></a><a class="tchip" href="s/601127.html">赛力斯 <span class="dim">(样本不足)</span></a><a class="tchip" href="s/688223.html">晶科能源 <span class="dim">(样本不足)</span></a></div></div><div class="card"><h2>⚡ 20日突破(Donchian)</h2><div class="dim" style="margin-bottom:6px;">上破前20日新高入 / 下破前10日新低出</div><div class="scroll"><table class="panel"><tr><td class="k">全池覆盖</td><td>300 只 · 其中有交易 300 只</td></tr><tr><td class="k">n 分布(每股交易数)</td><td>中位 13 <span class="dim">(p25 11.75 ~ p75 14)</span></td></tr><tr><td class="k">胜率(仅有交易股)</td><td>中位 38% <span class="dim">(p25 31% ~ p75 47%)</span></td></tr><tr><td class="k">平均超额(仅有交易股)</td><td>中位 -0.14% <span class="dim">(p25 -1.96% ~ p75 +2.87%)</span></td></tr></table></div><div class="dim" style="margin-top:6px;">今日触发 8 只:</div><div class="tchips"><a class="tchip" href="s/601088.html">中国神华 <span class="dim">(n=15 胜率33%)</span></a><a class="tchip" href="s/601857.html">中国石油 <span class="dim">(n=13 胜率38%)</span></a><a class="tchip" href="s/000999.html">华润三九 <span class="dim">(n=14 胜率14%)</span></a><a class="tchip" href="s/600028.html">中国石化 <span class="dim">(n=10 胜率40%)</span></a><a class="tchip" href="s/600886.html">国投电力 <span class="dim">(n=10 胜率60%)</span></a><a class="tchip" href="s/601077.html">渝农商行 <span class="dim">(n=15 胜率60%)</span></a><a class="tchip" href="s/601169.html">北京银行 <span class="dim">(n=16 胜率19%)</span></a><a class="tchip" href="s/601225.html">陕西煤业 <span class="dim">(n=16 胜率19%)</span></a></div></div><div class="card"><h2>⚡ 放量突破</h2><div class="dim" style="margin-bottom:6px;">20日新高且量≥2×20日均额入 / 跌破MA10出</div><div class="scroll"><table class="panel"><tr><td class="k">全池覆盖</td><td>300 只 · 其中有交易 299 只</td></tr><tr><td class="k">n 分布(每股交易数)</td><td>中位 9 <span class="dim">(p25 7 ~ p75 11)</span></td></tr><tr><td class="k">胜率(仅有交易股)</td><td>中位 38% <span class="dim">(p25 25% ~ p75 50%)</span></td></tr><tr><td class="k">平均超额(仅有交易股)</td><td>中位 -0.80% <span class="dim">(p25 -2.02% ~ p75 +1.96%)</span></td></tr></table></div><div class="dim" style="margin-top:6px;">今日触发 1 只:</div><div class="tchips"><a class="tchip" href="s/601857.html">中国石油 <span class="dim">(样本不足)</span></a></div></div><div class="card"><h2>⚡ MACD金叉</h2><div class="dim" style="margin-bottom:6px;">MACD(12,26,9)金叉入 / 死叉出</div><div class="scroll"><table class="panel"><tr><td class="k">全池覆盖</td><td>300 只 · 其中有交易 300 只</td></tr><tr><td class="k">n 分布(每股交易数)</td><td>中位 21 <span class="dim">(p25 19 ~ p75 23)</span></td></tr><tr><td class="k">胜率(仅有交易股)</td><td>中位 35% <span class="dim">(p25 29% ~ p75 43%)</span></td></tr><tr><td class="k">平均超额(仅有交易股)</td><td>中位 -0.46% <span class="dim">(p25 -1.59% ~ p75 +1.39%)</span></td></tr></table></div><div class="dim" style="margin-top:6px;">今日触发 8 只:</div><div class="tchips"><a class="tchip" href="s/603259.html">药明康德 <span class="dim">(n=19 胜率42%)</span></a><a class="tchip" href="s/600309.html">万华化学 <span class="dim">(n=19 胜率32%)</span></a><a class="tchip" href="s/000157.html">中联重科 <span class="dim">(n=23 胜率35%)</span></a><a class="tchip" href="s/000338.html">潍柴动力 <span class="dim">(n=19 胜率37%)</span></a><a class="tchip" href="s/000408.html">藏格矿业 <span class="dim">(n=20 胜率45%)</span></a><a class="tchip" href="s/600010.html">包钢股份 <span class="dim">(n=20 胜率35%)</span></a><a class="tchip" href="s/600905.html">三峡能源 <span class="dim">(n=22 胜率27%)</span></a><a class="tchip" href="s/601877.html">正泰电器 <span class="dim">(n=21 胜率38%)</span></a></div></div><div class="card"><h2>⚡ 回踩MA20企稳</h2><div class="dim" style="margin-bottom:6px;">上升趋势中回踩MA20±2%收阳入 / 破MA20出</div><div class="scroll"><table class="panel"><tr><td class="k">全池覆盖</td><td>300 只 · 其中有交易 300 只</td></tr><tr><td class="k">n 分布(每股交易数)</td><td>中位 11 <span class="dim">(p25 8 ~ p75 14)</span></td></tr><tr><td class="k">胜率(仅有交易股)</td><td>中位 28% <span class="dim">(p25 18% ~ p75 36%)</span></td></tr><tr><td class="k">平均超额(仅有交易股)</td><td>中位 -0.45% <span class="dim">(p25 -1.61% ~ p75 +1.33%)</span></td></tr></table></div><div class="dim" style="margin-top:6px;">今日触发 4 只:</div><div class="tchips"><a class="tchip" href="s/002415.html">海康威视 <span class="dim">(n=10 胜率30%)</span></a><a class="tchip" href="s/002938.html">鹏鼎控股 <span class="dim">(样本不足)</span></a><a class="tchip" href="s/600061.html">国投资本 <span class="dim">(n=13 胜率31%)</span></a><a class="tchip" href="s/601377.html">兴业证券 <span class="dim">(n=13 胜率38%)</span></a></div></div><div class="card"><h2>⚡ RS轮动</h2><div class="dim" style="margin-bottom:6px;">池内20日收益进前20%入 / 跌出前40%出(横截面, 需池级 _rs_pct)</div><div class="scroll"><table class="panel"><tr><td class="k">全池覆盖</td><td>300 只 · 其中有交易 300 只</td></tr><tr><td class="k">n 分布(每股交易数)</td><td>中位 10 <span class="dim">(p25 7 ~ p75 12)</span></td></tr><tr><td class="k">胜率(仅有交易股)</td><td>中位 38% <span class="dim">(p25 27% ~ p75 50%)</span></td></tr><tr><td class="k">平均超额(仅有交易股)</td><td>中位 -0.68% <span class="dim">(p25 -2.88% ~ p75 +3.21%)</span></td></tr></table></div><div class="dim" style="margin-top:6px;">今日触发 6 只:</div><div class="tchips"><a class="tchip" href="s/000333.html">美的集团 <span class="dim">(n=10 胜率40%)</span></a><a class="tchip" href="s/000651.html">格力电器 <span class="dim">(样本不足)</span></a><a class="tchip" href="s/001965.html">招商公路 <span class="dim">(n=10 胜率20%)</span></a><a class="tchip" href="s/300502.html">新易盛 <span class="dim">(n=19 胜率37%)</span></a><a class="tchip" href="s/600025.html">华能水电 <span class="dim">(样本不足)</span></a><a class="tchip" href="s/600900.html">长江电力 <span class="dim">(样本不足)</span></a></div></div><div class="card"><h2>⚡ 估值分位</h2><div class="dim" style="margin-bottom:6px;">PE3年分位&lt;20入 / &gt;80出(无估值序列则无信号; A股交易极少慎读)</div><div class="scroll"><table class="panel"><tr><td class="k">全池覆盖</td><td>300 只 · 其中有交易 268 只</td></tr><tr><td class="k">n 分布(每股交易数)</td><td>中位 2 <span class="dim">(p25 1 ~ p75 2)</span></td></tr><tr><td class="k">胜率(仅有交易股)</td><td>中位 100% <span class="dim">(p25 50% ~ p75 100%)</span></td></tr><tr><td class="k">平均超额(仅有交易股)</td><td>中位 -1.50% <span class="dim">(p25 -16.37% ~ p75 +12.77%)</span></td></tr></table></div><div class="dim" style="margin-top:6px;">今日无触发</div></div><div class="card"><h2>⚡ 布林回归</h2><div class="dim" style="margin-bottom:6px;">破布林下轨(-2σ)入 / 回中轨(MA20)出</div><div class="scroll"><table class="panel"><tr><td class="k">全池覆盖</td><td>300 只 · 其中有交易 300 只</td></tr><tr><td class="k">n 分布(每股交易数)</td><td>中位 9 <span class="dim">(p25 8 ~ p75 10)</span></td></tr><tr><td class="k">胜率(仅有交易股)</td><td>中位 62% <span class="dim">(p25 50% ~ p75 75%)</span></td></tr><tr><td class="k">平均超额(仅有交易股)</td><td>中位 -0.22% <span class="dim">(p25 -2.24% ~ p75 +1.79%)</span></td></tr></table></div><div class="dim" style="margin-top:6px;">今日触发 2 只:</div><div class="tchips"><a class="tchip" href="s/002202.html">金风科技 <span class="dim">(样本不足)</span></a><a class="tchip" href="s/300442.html">润泽科技 <span class="dim">(样本不足)</span></a></div></div>
+<footer class="site">本报告由「市场脉搏」自动生成,基于公开数据与新闻的研究性分析,不构成任何投资建议,据此操作风险自负。文中提及的行业代表公司仅为观察锚点, 非投资推荐。数据源: akshare / yfinance / 公开新闻。<br>数据来源: akshare(东方财富/新浪/百度股市通) · 申万行业指数(RS基准) · 前复权日线<br>生成时间: 2026-07-15 周三 15:59 北京时间</footer>
+</div>
+</body>
+</html>
