@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>拓荆科技 · 个股信号 · 市场脉搏</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+     background:#f4f5f7;color:#222;font-size:14px;line-height:1.6;}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:860px;margin:0 auto;padding:14px;}
+header.site{background:#1f2a44;color:#fff;border-radius:10px;padding:16px 18px;margin-bottom:12px;}
+header.site h1{font-size:18px;}
+header.site .sub{color:#a9b4cc;font-size:12px;margin-top:4px;}
+.card{background:#fff;border:1px solid #eceef2;border-radius:10px;padding:12px 14px;margin-bottom:12px;}
+.card h2{font-size:14px;color:#1f2a44;margin-bottom:8px;}
+.up{color:#d23b3b;} .down{color:#1a9c4e;} .flat{color:#6b7280;}
+.dim{color:#9aa0aa;font-size:11px;}
+.scroll{overflow-x:auto;}
+table.panel{width:100%;border-collapse:collapse;font-size:13px;}
+table.panel td{padding:6px 8px;border-bottom:1px solid #f0f1f4;vertical-align:top;}
+table.panel td.k{color:#666;width:42%;}
+footer.site{color:#999;font-size:11px;line-height:1.7;padding:10px 4px 30px;}
+.stale{background:#fff7e6;border:1px solid #f5d38f;color:#8a6d1f;border-radius:8px;
+       padding:8px 12px;font-size:12px;margin-bottom:12px;}
+/* 总览行 */
+.lhead,.lrow{display:grid;grid-template-columns:minmax(96px,1.4fr) repeat(7,minmax(58px,1fr));
+             gap:4px;align-items:center;min-width:620px;}
+.lhead{color:#888;font-size:11px;padding:6px 8px;}
+a.lrow{background:#fff;border:1px solid #eceef2;border-radius:8px;padding:9px 8px;margin:5px 0;
+       font-size:12px;display:grid;}
+a.lrow:active{background:#f0f2f6;}
+.lrow .nm{font-weight:600;color:#1f2a44;}
+.lrow .cd{color:#9aa0aa;font-size:10px;display:block;}
+/* 🎯 今日焦点 + reason chips(面板v2) */
+.chips{display:flex;flex-wrap:wrap;gap:4px;align-items:center;}
+.chip{display:inline-block;background:#eef1f7;border:1px solid #dde3ee;border-radius:999px;
+      padding:2px 9px;font-size:11px;color:#3d4a68;white-space:nowrap;}
+a.fcard{display:block;background:#fff;border:1px solid #eceef2;border-left:3px solid #1f2a44;
+        border-radius:8px;padding:8px 10px;margin:6px 0;}
+a.fcard:active{background:#f0f2f6;}
+.fcard .frow{display:flex;justify-content:space-between;gap:8px;margin-bottom:5px;
+             font-size:13px;flex-wrap:wrap;}
+.fcard .nm{font-weight:600;color:#1f2a44;}
+/* 筛选条(默认 hidden, 有 JS 才显示——无 JS 不出死控件) */
+.filters{margin:2px 0 8px;}
+.filters .chips{margin:4px 0;}
+.filters .chip{cursor:pointer;}
+.chip.on{background:#1f2a44;border-color:#1f2a44;color:#fff;}
+/* 行业分组小节头(排序激活时被 JS 隐藏) */
+.ghead{color:#4a5470;font-size:12px;font-weight:600;padding:10px 8px 2px;min-width:620px;}
+/* v3: 两层池段落头 + 全景池行业 <details> 折叠组 + 搜索框 + 焦点"更多"折叠 */
+.sect{color:#1f2a44;font-size:13px;font-weight:700;padding:14px 8px 2px;min-width:620px;}
+details.grp{min-width:620px;border-bottom:1px solid #eceef2;}
+details.grp>summary{cursor:pointer;color:#4a5470;font-size:12px;font-weight:600;
+  padding:9px 8px;list-style-position:inside;}
+details.grp>summary:hover{background:#f0f2f6;}
+details.fmore>summary{cursor:pointer;color:#4a5470;font-size:12px;padding:6px 0;}
+.searchbox{margin:2px 0 8px;}
+.searchbox input{width:100%;max-width:340px;padding:7px 12px;font-size:13px;
+  border:1px solid #dde3ee;border-radius:8px;background:#fff;color:#222;}
+.building{background:#eef4fb;border:1px solid #bcd4ef;color:#1f4c7a;border-radius:8px;
+  padding:8px 12px;font-size:12px;margin-bottom:12px;}
+.corebadge{display:inline-block;background:#fff3d6;border:1px solid #e8c876;color:#7a5b12;
+  border-radius:999px;padding:1px 9px;font-size:11px;vertical-align:2px;}
+/* 可排序表头: 仅 JS 激活(.js)后才有手势/箭头, 无 JS 不出可点假象 */
+.js .sh{cursor:pointer;}
+.js .sh::after{content:" ⇅";color:#b9c0cf;}
+.js .sh.desc::after{content:" ↓";color:#1f2a44;}
+.js .sh.asc::after{content:" ↑";color:#1f2a44;}
+/* 五维底稿 */
+.five{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px;}
+.q{background:#fafbfc;border:1px solid #eceef2;border-radius:8px;padding:9px 11px;font-size:12px;}
+.q b{display:block;color:#1f2a44;margin-bottom:3px;font-size:12px;}
+.q.todo{color:#b3b9c4;}
+/* 多空天平 */
+.scale{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.side{border-radius:8px;padding:9px 11px;font-size:12px;}
+.side.bull{background:#fbf4f4;border:1px solid #f4c5c5;}
+.side.bear{background:#eefaf2;border:1px solid #bfe6cd;}
+.side b{display:block;margin-bottom:4px;}
+.side.bull b{color:#8a1f1f;} .side.bear b{color:#155f33;}
+.light{margin:3px 0;}
+@media (max-width:480px){ .scale{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="dim" style="margin-bottom:8px;"><a href="../index.html">← 返回总览</a></div><header class="site"><h1>拓荆科技 <span style="font-weight:400;font-size:13px;">688072 · 其他 · 沪深300成分</span></h1><div class="sub"></div><div style="font-size:22px;font-weight:700;margin-top:8px;">850.01 <span class="up">+0.59%</span></div><div class="sub">行情截至 20260714 · 页面更新 2026-07-15 周三 15:33 北京时间</div></header><div class="stale">⚠️ 当日抓取失败, 显示最近一次成功数据(数据为 20260714 缓存回放), 请以官方行情为准。</div><div class="card"><h2>🎯 今日焦点信号</h2><div class="chips"><span class="chip">🔴 20日新高</span><span class="chip">🔴 放量上涨(2.1x)</span><span class="chip">🟢 RSI超买(76)</span><span class="chip">🟢 PE分位极高(3年100%)</span></div><div class="dim" style="margin-top:6px;">与总览"今日焦点"同源(规则生成的观察陈述, 非荐股)。</div></div><div class="card"><h2>🧭 五维底稿(研究五问, 非荐股)</h2><div class="five"><div class="q todo"><b>① 方向(基本面)</b><span class="dim">L2 接入中(信号台账闭环后补齐)</span></div><div class="q"><b>② 位置(估值 + 技术位)</b>PE(TTM) 150.27(3年分位 100%) / PB 34.09(3年分位 100%)<br>vs MA20 +21.54% · vs MA60 +53.87% · 多头排列<br>距52周高 +0.00% · 距52周低 +480.53%</div><div class="q todo"><b>③ 筹码(股东/内部人)</b><span class="dim">L2 接入中(信号台账闭环后补齐)</span></div><div class="q todo"><b>④ 日历(财报/解禁/除权)</b><span class="dim">L2 接入中(信号台账闭环后补齐)</span></div><div class="q"><b>⑤ 强度(RS·市场投票)</b>RS 数据 —</div></div></div><div class="card"><h2>⚖️ 多空天平(展示型信号灯, 不构成买卖依据)</h2><div class="scale"><div class="side bull"><b>看多 2</b><div class="light">• 20日新高 <span class="dim">(命中率: 攒样本中)</span></div><div class="light">• 放量上涨(2.1x) <span class="dim">(命中率: 攒样本中)</span></div></div><div class="side bear"><b>看空 2</b><div class="light">• RSI超买(76) <span class="dim">(命中率: 攒样本中)</span></div><div class="light">• PE分位极高(3年100%) <span class="dim">(命中率: 攒样本中)</span></div></div></div><div class="dim" style="margin-top:6px;">命中率统计需 L2 信号台账攒样本(n≥20 才有解读价值), 上线前一律标"攒样本中"。</div></div><div class="card"><h2>📋 数据面板</h2><div class="scroll"><table class="panel"><tr><td class="k">收盘价 / 当日涨跌</td><td>850.01 / +0.59%</td></tr><tr><td class="k">MA20 / MA60</td><td>699.38 / 552.43</td></tr><tr><td class="k">vs MA20 / vs MA60</td><td>+21.54% / +53.87%</td></tr><tr><td class="k">均线排列</td><td>多头排列</td></tr><tr><td class="k">RSI14</td><td>76.01 · 超买</td></tr><tr><td class="k">MACD(12,26,9)</td><td>DIF在DEA上方 · 零轴上</td></tr><tr><td class="k">量能 vs 自身20日均值</td><td>2.11x</td></tr><tr><td class="k">20日新高 / 新低</td><td>是 / 否</td></tr><tr><td class="k">距52周高 / 低</td><td>+0.00% / +480.53%</td></tr><tr><td class="k">当日跳空缺口(≥2%才标)</td><td>-4.73%</td></tr><tr><td class="k">20日涨跌</td><td>+45.79%</td></tr><tr><td class="k">PE(TTM) / 3年分位</td><td>150.27 / 100%</td></tr><tr><td class="k">PB / 3年分位</td><td>34.09 / 100%</td></tr><tr><td class="k">股息率</td><td>—</td></tr><tr><td class="k">相对行业20日超额</td><td>—</td></tr><tr><td class="k">池内RS排名</td><td>—</td></tr><tr><td class="k">历史仓深度</td><td>597 根日线</td></tr><tr><td class="k">行情截至</td><td>20260714</td></tr></table></div></div>
+<footer class="site">本报告由「市场脉搏」自动生成,基于公开数据与新闻的研究性分析,不构成任何投资建议,据此操作风险自负。文中提及的行业代表公司仅为观察锚点, 非投资推荐。数据源: akshare / yfinance / 公开新闻。<br>数据来源: akshare(东方财富/新浪/百度股市通) · 申万行业指数(RS基准) · 前复权日线<br>生成时间: 2026-07-15 周三 15:33 北京时间</footer>
+</div>
+</body>
+</html>
