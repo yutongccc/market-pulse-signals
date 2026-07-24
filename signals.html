@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>信号族战绩 · 市场脉搏</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+     background:#f4f5f7;color:#222;font-size:14px;line-height:1.6;}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:860px;margin:0 auto;padding:14px;}
+header.site{background:#1f2a44;color:#fff;border-radius:10px;padding:16px 18px;margin-bottom:12px;}
+header.site h1{font-size:18px;}
+header.site .sub{color:#a9b4cc;font-size:12px;margin-top:4px;}
+.card{background:#fff;border:1px solid #eceef2;border-radius:10px;padding:12px 14px;margin-bottom:12px;}
+.card h2{font-size:14px;color:#1f2a44;margin-bottom:8px;}
+.up{color:#d23b3b;} .down{color:#1a9c4e;} .flat{color:#6b7280;}
+.dim{color:#9aa0aa;font-size:11px;}
+.scroll{overflow-x:auto;}
+table.panel{width:100%;border-collapse:collapse;font-size:13px;}
+table.panel td{padding:6px 8px;border-bottom:1px solid #f0f1f4;vertical-align:top;}
+table.panel td.k{color:#666;width:42%;}
+footer.site{color:#999;font-size:11px;line-height:1.7;padding:10px 4px 30px;}
+.stale{background:#fff7e6;border:1px solid #f5d38f;color:#8a6d1f;border-radius:8px;
+       padding:8px 12px;font-size:12px;margin-bottom:12px;}
+/* 总览行 */
+.lhead,.lrow{display:grid;grid-template-columns:minmax(96px,1.4fr) repeat(7,minmax(58px,1fr));
+             gap:4px;align-items:center;min-width:620px;}
+.lhead{color:#888;font-size:11px;padding:6px 8px;}
+a.lrow{background:#fff;border:1px solid #eceef2;border-radius:8px;padding:9px 8px;margin:5px 0;
+       font-size:12px;display:grid;}
+a.lrow:active{background:#f0f2f6;}
+.lrow .nm{font-weight:600;color:#1f2a44;}
+.lrow .cd{color:#9aa0aa;font-size:10px;display:block;}
+/* 🎯 今日焦点 + reason chips(面板v2) */
+.chips{display:flex;flex-wrap:wrap;gap:4px;align-items:center;}
+.chip{display:inline-block;background:#eef1f7;border:1px solid #dde3ee;border-radius:999px;
+      padding:2px 9px;font-size:11px;color:#3d4a68;white-space:nowrap;}
+a.fcard{display:block;background:#fff;border:1px solid #eceef2;border-left:3px solid #1f2a44;
+        border-radius:8px;padding:8px 10px;margin:6px 0;}
+a.fcard:active{background:#f0f2f6;}
+.fcard .frow{display:flex;justify-content:space-between;gap:8px;margin-bottom:5px;
+             font-size:13px;flex-wrap:wrap;}
+.fcard .nm{font-weight:600;color:#1f2a44;}
+.fsec{color:#4a5470;font-size:12px;font-weight:700;margin:10px 0 4px;}
+.fsec:first-of-type{margin-top:4px;}
+/* v2 单股页(0722): 速览条胶囊 + 四问分区头 */
+.hero{padding:12px 14px;}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;}
+.hpill{display:flex;flex-direction:column;gap:1px;border-radius:10px;padding:6px 12px;
+  min-width:88px;border:1px solid #e9ebf0;text-decoration:none;color:inherit;}
+.hpill .k{font-size:11px;color:#98a0b0;letter-spacing:.5px;}
+.hpill .v{font-size:14px;font-weight:700;color:#1f2a44;}
+.hpill.warn{background:#faf5ea;border-color:transparent;} .hpill.warn .v{color:#a87b24;}
+.hpill.bad{background:#faf1ef;border-color:transparent;} .hpill.bad .v{color:#b3452e;}
+.hpill.ok{background:#eef3f9;border-color:transparent;} .hpill.ok .v{color:#3a6ea5;}
+.hpill.na .v{color:#98a0b0;font-weight:600;}
+.hero .overall{margin-top:10px;padding-top:9px;border-top:1px solid #e9ebf0;
+  font-size:13px;color:#3d4a68;line-height:1.65;}
+.hero .todayline{margin-top:4px;font-size:12px;color:#98a0b0;}
+.sec h2 .q{color:#98a0b0;font-size:11.5px;font-weight:400;margin-left:6px;}
+/* 筛选条(默认 hidden, 有 JS 才显示——无 JS 不出死控件) */
+.filters{margin:2px 0 8px;}
+.filters .chips{margin:4px 0;}
+.filters .chip{cursor:pointer;}
+.chip.on{background:#1f2a44;border-color:#1f2a44;color:#fff;}
+/* 行业分组小节头(排序激活时被 JS 隐藏) */
+.ghead{color:#4a5470;font-size:12px;font-weight:600;padding:10px 8px 2px;min-width:620px;}
+/* v3: 两层池段落头 + 全景池行业 <details> 折叠组 + 搜索框 + 焦点"更多"折叠 */
+.sect{color:#1f2a44;font-size:13px;font-weight:700;padding:14px 8px 2px;min-width:620px;}
+details.grp{min-width:620px;border-bottom:1px solid #eceef2;}
+details.grp>summary{cursor:pointer;color:#4a5470;font-size:12px;font-weight:600;
+  padding:9px 8px;list-style-position:inside;}
+details.grp>summary:hover{background:#f0f2f6;}
+details.fmore>summary{cursor:pointer;color:#4a5470;font-size:12px;padding:6px 0;}
+.searchbox{margin:2px 0 8px;}
+.searchbox input{width:100%;max-width:340px;padding:7px 12px;font-size:13px;
+  border:1px solid #dde3ee;border-radius:8px;background:#fff;color:#222;}
+.building{background:#eef4fb;border:1px solid #bcd4ef;color:#1f4c7a;border-radius:8px;
+  padding:8px 12px;font-size:12px;margin-bottom:12px;}
+.corebadge{display:inline-block;background:#fff3d6;border:1px solid #e8c876;color:#7a5b12;
+  border-radius:999px;padding:1px 9px;font-size:11px;vertical-align:2px;}
+/* 可排序表头: 仅 JS 激活(.js)后才有手势/箭头, 无 JS 不出可点假象 */
+.js .sh{cursor:pointer;}
+.js .sh::after{content:" ⇅";color:#b9c0cf;}
+.js .sh.desc::after{content:" ↓";color:#1f2a44;}
+.js .sh.asc::after{content:" ↑";color:#1f2a44;}
+/* 五维底稿 */
+.five{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px;}
+.q{background:#fafbfc;border:1px solid #eceef2;border-radius:8px;padding:10px 12px;
+  font-size:12px;line-height:1.7;}
+.q b{display:block;color:#1f2a44;margin-bottom:5px;font-size:12px;}
+.q.todo{color:#b3b9c4;}
+.qline{margin:1px 0;}
+.qlbl{display:inline-block;min-width:2.6em;color:#98a0b0;font-weight:600;margin-right:6px;}
+.qsub{color:#8a93a6;}
+/* 多空天平 */
+.scale{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.side{border-radius:8px;padding:9px 11px;font-size:12px;}
+.side.bull{background:#fbf4f4;border:1px solid #f4c5c5;}
+.side.bear{background:#eefaf2;border:1px solid #bfe6cd;}
+.side b{display:block;margin-bottom:4px;}
+.side.bull b{color:#8a1f1f;} .side.bear b{color:#155f33;}
+.light{margin:3px 0;}
+.hit{margin-left:12px;font-size:11px;}   /* L2a 灯命中率注解行(全池/本股两行) */
+@media (max-width:480px){ .scale{grid-template-columns:1fr;} }
+
+details.sgloss{margin:2px 0 8px;font-size:12.5px;line-height:1.65;}
+details.sgloss summary{cursor:pointer;color:#8a6d3b;font-size:12px;}
+details.sgloss>div{margin:3px 0;}
+details.sgloss b{display:inline-block;min-width:5.5em;color:#4a5470;font-weight:600;}
+table.l2s{width:100%;border-collapse:collapse;font-size:12px;min-width:640px;}
+table.l2s th,table.l2s td{padding:5px 7px;border-bottom:1px solid #f0f1f4;text-align:right;
+  white-space:nowrap;vertical-align:top;}
+table.l2s th{color:#888;font-weight:600;font-size:11px;}
+table.l2s td:first-child,table.l2s th:first-child,
+table.l2s td:nth-child(2),table.l2s th:nth-child(2){text-align:left;}
+table.l2s tr.lown td{color:#b3b9c4;}
+.l2s-note{background:#fff7e6;border:1px solid #f5d38f;color:#8a6d1f;border-radius:8px;
+  padding:7px 11px;font-size:11.5px;margin-bottom:6px;}
+.mtwarn{background:#fdeeee;border:1px solid #f0b9b9;color:#7a1f1f;border-radius:10px;
+  padding:11px 14px;font-size:12.5px;line-height:1.7;margin-bottom:12px;}
+.tchips{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px;}
+a.tchip{display:inline-block;background:#eef1f7;border:1px solid #dde3ee;border-radius:8px;
+  padding:3px 9px;font-size:11.5px;color:#3d4a68;}
+a.tchip:active{background:#e2e7f2;}
+
+.fincard{margin-top:14px;}
+.fingate{background:#fff4e5;border:1px solid #f0c;border-color:#e8a44d;border-radius:8px;
+  padding:8px 12px;margin:8px 0;font-size:13px;color:#8a5200;}
+.finconc{background:var(--card2,#f7f8fa);border-radius:8px;padding:10px 12px;margin:8px 0;
+  font-size:13.5px;line-height:1.75;}
+.finconc b{margin-right:4px;}
+.finsec{margin:10px 0 4px;font-weight:700;font-size:14px;}
+.fintab{width:100%;border-collapse:collapse;font-size:13px;}
+.fintab th,.fintab td{padding:7px 9px;border-bottom:1px solid var(--line,#eef0f3);
+  text-align:right;line-height:1.5;vertical-align:top;}
+.fintab th{color:#8a93a6;font-weight:600;font-size:12px;}
+.fintab th:first-child,.fintab td:first-child{text-align:left;}
+.fintab td.trend{text-align:center;}
+.fintab td.ref,.fintab td.note{text-align:left;color:#6b7280;font-size:12px;font-weight:400;}
+.fintab tr:hover td{background:#fafbfc;}
+/* ❶表定死列宽(0720): 否则"参照"列长文案抢宽度, 把自己和"指标"列都挤成竖条(三裂) */
+.fintab.fixed{table-layout:fixed;}
+.fintab.fixed td:first-child{word-break:break-word;}
+/* 拆解/口径明细降级为指标下方缩进小灰行(0720: 近8季列只留趋势字形, 不再混排 prose) */
+.fintab tr.hasub>td{border-bottom:none;padding-bottom:2px;}
+.fintab td.subnote{text-align:left;color:#98a0b0;font-size:11.5px;line-height:1.55;
+  padding:0 9px 9px 24px;}
+.finflag{border-left:3px solid #c0392b;background:var(--card2,#faf5f5);border-radius:0 8px 8px 0;
+  padding:8px 12px;margin:6px 0;font-size:13px;line-height:1.6;}
+.finflag.amber{border-left-color:#e8a44d;}
+.finflag.grey{border-left-color:#999;color:#888;}
+.finflag .fname{font-weight:700;}
+.finok{color:#2e7d32;font-size:13px;margin:6px 0;}
+.glyph{font-family:ui-monospace,Menlo,monospace;letter-spacing:2.5px;color:#5a6270;}
+.glyph .gu{color:#d23b3b;} .glyph .gd{color:#1a9c4e;} .glyph .gf{color:#b9c0cf;}
+.peerfold{margin-top:3px;font-size:12px;}
+.peerfold summary{cursor:pointer;color:#98a0b0;font-size:11.5px;}
+.peerfold>div{color:#6b7280;line-height:1.9;padding:4px 0;}
+.lown{color:#999;}
+.dim{color:#888;}
+.peerbar{color:#6b7280;font-size:12px;}
+/* ⓘ 词条: CSS 悬浮/点按 tooltip(替代原生 title——延迟高、触屏不弹, 0720 用户反馈)。
+   不加下划线: 内联 border-bottom 在指标名换行时会断成多段("三裂", 0720)——蓝色 ⓘ 已是可点信号。
+   name 与 ⓘ 之间禁断行(white-space:nowrap 只作用于外壳, 中文名过长仍可整体换行不劈开)。 */
+.term{position:relative;cursor:help;}
+.term>.ic{color:#3b6cb7;font-size:.82em;margin-left:1px;white-space:nowrap;}
+.term>.tip{visibility:hidden;opacity:0;position:absolute;left:0;top:150%;z-index:40;
+  width:min(260px,74vw);background:#1f2a44;color:#fff;font-weight:400;font-size:12px;
+  line-height:1.6;text-align:left;padding:9px 11px;border-radius:7px;letter-spacing:normal;
+  box-shadow:0 6px 20px rgba(20,28,48,.28);white-space:normal;transition:opacity .12s;
+  pointer-events:none;}
+.term>.tip::before{content:"";position:absolute;left:14px;bottom:100%;border:5px solid transparent;
+  border-bottom-color:#1f2a44;}
+.term:hover>.tip,.term:focus>.tip,.term:focus-within>.tip{visibility:visible;opacity:1;}
+.findisc{font-size:12px;color:#999;margin-top:8px;}
+details.gloss{margin-top:10px;font-size:12.5px;}
+details.gloss summary{cursor:pointer;color:#666;}
+details.trace{margin-top:4px;font-size:12px;}
+details.trace summary{cursor:pointer;color:#8a6d3b;font-size:12px;}
+.gitem{margin:8px 0;padding:6px 10px;background:var(--card2,#f7f8fa);border-radius:6px;}
+.gitem b{display:block;margin-bottom:2px;}
+.mtwarn{background:#fdecea;border:1px solid #e6a5a1;border-radius:8px;padding:8px 12px;
+  margin:10px 0;font-size:13px;color:#9c2b23;}
+.diffitem{padding:4px 0;border-bottom:1px dashed var(--line,#e8e8e8);font-size:13px;}
+/* ── v2 单股页组件(0722 拍板: 一屏速览+四问分区) ── */
+.num{font-variant-numeric:tabular-nums;}
+.verdict{font-size:13px;color:#5b6472;margin:4px 0 10px;line-height:1.7;}
+.verdict .vp{display:inline-block;border-radius:6px;padding:0 7px;font-weight:700;
+  font-size:12px;margin-right:6px;}
+.vp.warn{background:#faf5ea;color:#a87b24;}
+.vp.bad{background:#faf1ef;color:#b3452e;}
+.vp.ok{background:#eef3f9;color:#3a6ea5;}
+.vp.na{background:#f0f2f5;color:#98a0b0;}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px;margin:2px 0;}
+.tile{border:1px solid #e9ebf0;border-radius:10px;padding:9px 12px 8px;}
+.tile .k{font-size:11.5px;color:#98a0b0;}
+.tile .v{font-size:22px;font-weight:700;letter-spacing:.2px;margin:1px 0 0;}
+.tile .v .u{font-size:12px;font-weight:500;color:#5b6472;}
+.tile.warn .v{color:#a87b24;}
+.tile .t{font-size:11px;color:#98a0b0;margin-top:2px;}
+.bands{display:flex;flex-direction:column;gap:10px;margin:2px 0;}
+.band .bk{display:flex;justify-content:space-between;font-size:12px;color:#5b6472;margin-bottom:3px;}
+.band .bk b{color:#1c2536;font-size:12.5px;}
+.track{position:relative;height:8px;border-radius:4px;
+  background:linear-gradient(90deg,#eef3f9,#f0f2f5 50%,#faf5ea);}
+.track .dot{position:absolute;top:50%;transform:translate(-50%,-50%);width:13px;height:13px;
+  border-radius:50%;background:#1f2a44;border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25);}
+.track .med{position:absolute;top:-2px;bottom:-2px;left:50%;width:1px;background:#98a0b0;opacity:.55;}
+.band .bl{display:flex;justify-content:space-between;font-size:10.5px;color:#98a0b0;margin-top:2px;}
+details.fold{margin-top:9px;font-size:12.5px;}
+details.fold summary{cursor:pointer;color:#98a0b0;font-size:12px;}
+details.fold summary b{color:#5b6472;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="dim" style="margin-bottom:8px;"><a href="index.html">← 返回个股信号总览</a></div><header class="site"><h1>📶 信号族战绩(前向台账)</h1><div class="sub">更新: 2026-07-24 周五 16:11 北京时间 · L2a 信号台账: 信号日后 T+5/T+20 交易日相对申万行业超额三态(±1%中性带) · 仅研究观察, 非荐股</div></header><div class="card"><div class="dim">口径: 命中率=对/(对+错), 中性(|超额|≤1%)不进分母; 平均超额已按信号方向调整(正=信号方向兑现); 看空信号=股票跑输行业才算对。固定目录序全部列出(不按业绩排、不筛胜者)。<b>统计诚实铁律: 永远带样本量 n; n&lt;20 一律样本不足, 仅供参考。</b>前向台账 ≠ 未来, 不构成任何投资建议。</div></div><div class="card"><h2>信号族 × 前向战绩(全部, 不筛)</h2><div class="scroll"><table class="l2s"><thead><tr><th>信号族</th><th>5日(T+5)</th><th>20日(T+20)</th></tr></thead><tbody><tr><td>突破MA20<span class="cd">ma20_break_up</span></td><td>n=23 · 命中 71% · 平均超额 +2.31pp · 近20次 70%</td><td>n=0 · 命中 — · 平均超额 — <span class="dim">(样本不足, 仅供参考)</span></td></tr><tr class="lown"><td>跌破MA20<span class="cd">ma20_break_down</span></td><td>n=7 · 命中 67% · 平均超额 -0.84pp · 近20次 67% <span class="dim">(样本不足, 仅供参考)</span></td><td>n=0 · 命中 — · 平均超额 — <span class="dim">(样本不足, 仅供参考)</span></td></tr><tr><td>20日新高<span class="cd">high20</span></td><td>n=23 · 命中 64% · 平均超额 +1.82pp · 近20次 60%</td><td>n=0 · 命中 — · 平均超额 — <span class="dim">(样本不足, 仅供参考)</span></td></tr><tr><td>20日新低<span class="cd">low20</span></td><td>n=23 · 命中 35% · 平均超额 -1.03pp · 近20次 35%</td><td>n=0 · 命中 — · 平均超额 — <span class="dim">(样本不足, 仅供参考)</span></td></tr><tr class="lown"><td>RSI超卖<span class="cd">rsi_oversold</span></td><td>n=8 · 命中 100% · 平均超额 +4.92pp · 近20次 100% <span class="dim">(样本不足, 仅供参考)</span></td><td>n=0 · 命中 — · 平均超额 — <span class="dim">(样本不足, 仅供参考)</span></td></tr><tr class="lown"><td>放量上涨<span class="cd">vol_surge_up</span></td><td>n=5 · 命中 60% · 平均超额 +0.72pp · 近20次 60% <span class="dim">(样本不足, 仅供参考)</span></td><td>n=0 · 命中 — · 平均超额 — <span class="dim">(样本不足, 仅供参考)</span></td></tr><tr><td>池内RS前20%<span class="cd">rs_top</span></td><td>n=32 · 命中 70% · 平均超额 +2.72pp · 近20次 65%</td><td>n=0 · 命中 — · 平均超额 — <span class="dim">(样本不足, 仅供参考)</span></td></tr><tr><td>池内RS后20%<span class="cd">rs_bottom</span></td><td>n=32 · 命中 28% · 平均超额 -2.41pp · 近20次 35%</td><td>n=0 · 命中 — · 平均超额 — <span class="dim">(样本不足, 仅供参考)</span></td></tr><tr><td>估值分位极低<span class="cd">val_low</span></td><td>n=43 · 命中 68% · 平均超额 +2.94pp · 近20次 50%</td><td>n=0 · 命中 — · 平均超额 — <span class="dim">(样本不足, 仅供参考)</span></td></tr><tr><td>估值分位极高<span class="cd">val_high</span></td><td>n=22 · 命中 37% · 平均超额 -1.28pp · 近20次 37%</td><td>n=0 · 命中 — · 平均超额 — <span class="dim">(样本不足, 仅供参考)</span></td></tr><tr><td>策略·MA20趋势<span class="cd">strategy:ma20_trend</span></td><td>n=33 · 命中 80% · 平均超额 +2.62pp · 近20次 70%</td><td>n=0 · 命中 — · 平均超额 — <span class="dim">(样本不足, 仅供参考)</span></td></tr><tr class="lown"><td>策略·双均线金叉(20/60)<span class="cd">strategy:dual_ma_cross</span></td><td>n=3 · 命中 67% · 平均超额 +2.17pp · 近20次 67% <span class="dim">(样本不足, 仅供参考)</span></td><td>n=0 · 命中 — · 平均超额 — <span class="dim">(样本不足, 仅供参考)</span></td></tr><tr class="lown"><td>策略·RSI超卖反弹<span class="cd">strategy:rsi_oversold</span></td><td>n=3 · 命中 100% · 平均超额 +4.10pp · 近20次 100% <span class="dim">(样本不足, 仅供参考)</span></td><td>n=0 · 命中 — · 平均超额 — <span class="dim">(样本不足, 仅供参考)</span></td></tr><tr><td>策略·20日突破(Donchian)<span class="cd">strategy:donchian20</span></td><td>n=31 · 命中 93% · 平均超额 +4.08pp · 近20次 95%</td><td>n=0 · 命中 — · 平均超额 — <span class="dim">(样本不足, 仅供参考)</span></td></tr><tr class="lown"><td>策略·放量突破<span class="cd">strategy:volume_breakout</span></td><td>n=8 · 命中 88% · 平均超额 +2.88pp · 近20次 88% <span class="dim">(样本不足, 仅供参考)</span></td><td>n=0 · 命中 — · 平均超额 — <span class="dim">(样本不足, 仅供参考)</span></td></tr><tr class="lown"><td>策略·MACD金叉<span class="cd">strategy:macd_cross</span></td><td>n=11 · 命中 70% · 平均超额 +2.21pp · 近20次 70% <span class="dim">(样本不足, 仅供参考)</span></td><td>n=0 · 命中 — · 平均超额 — <span class="dim">(样本不足, 仅供参考)</span></td></tr><tr class="lown"><td>策略·回踩MA20企稳<span class="cd">strategy:ma20_pullback</span></td><td>n=4 · 命中 33% · 平均超额 -3.19pp · 近20次 33% <span class="dim">(样本不足, 仅供参考)</span></td><td>n=0 · 命中 — · 平均超额 — <span class="dim">(样本不足, 仅供参考)</span></td></tr><tr class="lown"><td>策略·RS轮动<span class="cd">strategy:rs_rotation</span></td><td>n=17 · 命中 88% · 平均超额 +3.00pp · 近20次 88% <span class="dim">(样本不足, 仅供参考)</span></td><td>n=0 · 命中 — · 平均超额 — <span class="dim">(样本不足, 仅供参考)</span></td></tr><tr class="lown"><td>策略·布林回归<span class="cd">strategy:bollinger_revert</span></td><td>n=12 · 命中 25% · 平均超额 -3.30pp · 近20次 25% <span class="dim">(样本不足, 仅供参考)</span></td><td>n=0 · 命中 — · 平均超额 — <span class="dim">(样本不足, 仅供参考)</span></td></tr></tbody></table></div></div>
+<footer class="site">本报告由「市场脉搏」自动生成,基于公开数据与新闻的研究性分析,不构成任何投资建议,据此操作风险自负。文中提及的行业代表公司仅为观察锚点, 非投资推荐。数据源: akshare / yfinance / 公开新闻。<br>数据来源: akshare(东方财富/新浪/百度股市通) · 申万行业指数(RS基准) · 前复权日线<br>生成时间: 2026-07-24 周五 16:11 北京时间</footer>
+<img src="https://yutongc.goatcounter.com/count?p=/%E4%BF%A1%E5%8F%B7%E6%97%8F%E6%88%98%E7%BB%A9%20%C2%B7%20%E5%B8%82%E5%9C%BA%E8%84%89%E6%90%8F" style="position:absolute;width:1px;height:1px;opacity:0;" alt="" loading="eager">
+</div>
+</body>
+</html>
