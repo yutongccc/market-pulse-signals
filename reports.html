@@ -27,7 +27,7 @@ body{margin:0;background:var(--mpwb-bg,#f6f5fa);color:var(--mpwb-ink,#302a42);
 .mp-archive-date{display:inline-block;font-size:12px;line-height:1.5;font-variant-numeric:tabular-nums;
   color:var(--mpwb-muted,#7c7389);background:var(--mpwb-bg,#f6f5fa);
   border:1px solid var(--mpwb-line,#e7e2ef);border-radius:6px;padding:3px 7px}
-.mp-archive-links{line-height:1.7;color:var(--mpwb-muted,#7c7389);text-align:right}
+.mp-archive-links{display:flex;gap:8px;line-height:1.7;color:var(--mpwb-muted,#7c7389);text-align:right}
 .mp-archive a{color:var(--mpwb-accent,#7756c9);text-decoration:none}
 .mp-archive a:hover{text-decoration:underline}
 .mp-archive li a{display:inline-block;border-radius:6px;padding:5px 6px;transition:background .15s}
@@ -38,6 +38,20 @@ body{margin:0;background:var(--mpwb-bg,#f6f5fa);color:var(--mpwb-ink,#302a42);
 @media(max-width:760px){.mp-archive h1{font-size:22px}.mp-archive section{padding:16px;margin:14px 0}
   .mp-archive-types a{min-height:40px}.mp-archive li{gap:8px;min-height:48px}
   .mp-archive-date{padding:3px 6px}.mp-archive li a{padding:7px 6px}}
+
+.mp-archive [hidden]{display:none!important}
+.mp-archive-filter{display:grid;grid-template-columns:minmax(140px,1fr) minmax(150px,1fr) minmax(150px,1fr) auto;gap:12px;align-items:end;padding:16px;background:var(--mpwb-surface);border:1px solid var(--mpwb-line);border-radius:10px;margin:16px 0 8px}
+.mp-archive-filter label{display:grid;gap:6px;font-size:12px;color:var(--mpwb-muted);min-width:0}
+.mp-archive-filter input,.mp-archive-filter select,.mp-archive-filter button{font:inherit;min-height:40px;border:1px solid var(--mpwb-line);border-radius:7px;padding:8px 10px;background:var(--mpwb-surface);color:var(--mpwb-ink);min-width:0;max-width:100%}
+.mp-archive-filter .archive-filter-actions{display:flex;gap:8px;flex-wrap:wrap}
+.mp-archive-filter button{cursor:pointer;color:var(--mpwb-accent)}
+.mp-archive-filter button[type=submit]{background:var(--mpwb-button);color:var(--mpwb-button-ink);border-color:var(--mpwb-button)}
+.mp-archive-filter :is(input,select,button):focus-visible{outline:3px solid var(--mpwb-accent);outline-offset:3px}
+.archive-filter-status,.archive-filter-error,.archive-filter-explainer{font-size:12px;line-height:1.8;margin:8px 0;color:var(--mpwb-muted)}
+.archive-filter-error{color:var(--mpwb-up);padding:10px;border:1px solid var(--mpwb-line);border-radius:8px}
+.archive-filter-empty{padding:24px;border:1px dashed var(--mpwb-line);border-radius:10px;color:var(--mpwb-muted)}
+.mp-archive-types a[aria-current=true]{background:var(--mpwb-accent);color:var(--mpwb-surface)}
+@media(max-width:760px){.mp-archive-filter{grid-template-columns:1fr 1fr;padding:12px}.mp-archive-filter label:first-child,.archive-filter-actions{grid-column:1/-1}.mp-archive-filter input,.mp-archive-filter select,.mp-archive-filter button{min-height:44px;font-size:16px;width:100%}.mp-archive-filter button{width:auto;flex:1}.mp-archive-types a{min-height:44px}}
 </style>
 <!-- mpwb:style:start --><style id="mpwb-style">
 
@@ -276,30 +290,141 @@ a.mpwb-nav-item:hover{background:var(--mpwb-hover);color:var(--mpwb-accent)!impo
 <body data-mp-workbench-layout="a" class="mpwb-body"><!-- mpwb:before:start --><a class="mpwb-skip" href="#mpwb-content">跳至页面内容</a><aside class="mpwb-sidebar" aria-label="工作台导航"><a class="mpwb-brand" href="hub.html"><span class="mpwb-brand-mark">m</span><span class="mpwb-brand-copy">Market Desk<small>市场脉搏 · 研究工作台</small></span></a><div class="mpwb-caption">工作台</div><nav class="mpwb-nav" aria-label="四个入口"><a class="mpwb-nav-item" href="hub.html"><span class="mpwb-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 19V5M4 19h16M8 15l4-5 4 2 4-7"/></svg></span><span>市场</span></a><a class="mpwb-nav-item" href="index.html"><span class="mpwb-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4M8 10.5h5M10.5 8v5"/></svg></span><span>标的研究</span></a><a class="mpwb-nav-item" href="strategies.html"><span class="mpwb-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3M8 15h8"/></svg></span><span>量化实验</span></a><a class="mpwb-nav-item mpwb-active" href="reports.html" aria-current="page"><span class="mpwb-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h3M8 15h8M8 18h8"/><path d="M14 10h2v2h-2z"/></svg></span><span>报告与复盘</span></a></nav><details class="mpwb-aux"><summary>工具与说明</summary><a href="method.html">口径与方法</a><a href="quiz.html">K 线练习</a></details><div class="mpwb-sidebar-foot">数据时点与来源见各页<br>研究工具 · 保留独立口径</div></aside><div class="mpwb-main" data-mp-page="reports.html"><header class="mpwb-topbar"><div class="mpwb-breadcrumb">研究工作台</div><div class="mpwb-theme-switch" role="group" aria-label="页面配色"><button type="button" data-mpwb-theme-choice="light" aria-pressed="true">浅色</button><button type="button" data-mpwb-theme-choice="dark" aria-pressed="false">深色</button></div></header><div class="mpwb-content" id="mpwb-content" tabindex="-1"><!-- mpwb:before:end -->
 <main class="mp-archive">
 <h1>报告与复盘</h1>
-<p class="mp-archive-intro">按日期查找日报、周报与月报。日报展示最近 30 天，周报、月报各展示最近 12 期。</p>
-<nav class="mp-archive-types" aria-label="报告类型"><a href="#daily">日报</a><a href="#weekly">周报</a><a href="#monthly">月报</a></nav>
-<section id="daily"><h2>日报</h2><ul>
-<li id="day-20261102"><time class="mp-archive-date" datetime="2026-11-02">2026-11-02 周一</time><span class="mp-archive-links"><a href="daily/20261102-pm.html">晚报</a></span></li>
-<li id="day-20261030"><time class="mp-archive-date" datetime="2026-10-30">2026-10-30 周五</time><span class="mp-archive-links"><a href="daily/20261030-pm.html">晚报</a></span></li>
-<li id="day-20261029"><time class="mp-archive-date" datetime="2026-10-29">2026-10-29 周四</time><span class="mp-archive-links"><a href="daily/20261029-pm.html">晚报</a></span></li>
-<li id="day-20261022"><time class="mp-archive-date" datetime="2026-10-22">2026-10-22 周四</time><span class="mp-archive-links"><a href="daily/20261022-am.html">早报</a> · <a href="daily/20261022-pm.html">晚报</a></span></li>
-<li id="day-20261014"><time class="mp-archive-date" datetime="2026-10-14">2026-10-14 周三</time><span class="mp-archive-links"><a href="daily/20261014-pm.html">晚报</a></span></li>
-<li id="day-20261013"><time class="mp-archive-date" datetime="2026-10-13">2026-10-13 周二</time><span class="mp-archive-links"><a href="daily/20261013-pm.html">晚报</a></span></li>
+<p class="mp-archive-intro">查找当前已归档的日报、周报与月报。这里只列已有文件，不表示每个交易日都已成功出报。</p>
+<form id="archive-filter" class="mp-archive-filter" aria-label="筛选报告" hidden novalidate><label>报告类型<select name="type"><option value="all">全部报告</option><option value="daily">全部日报</option><option value="am">早报</option><option value="pm">晚报</option><option value="weekly">周报</option><option value="monthly">月报</option></select></label><label>开始日期<input type="date" name="from"></label><label>结束日期<input type="date" name="to"></label><div class="archive-filter-actions"><button type="submit">应用筛选</button><button type="reset">重置</button></div></form>
+<p class="archive-filter-explainer">日报按报告日筛选；周报按周一至周日、月报按整月，覆盖期与所选日期有交集即显示，不代表发布日期。</p>
+<p id="archive-filter-status" class="archive-filter-status" role="status" aria-live="polite">共 22 篇已归档报告。</p>
+<p id="archive-filter-error" class="archive-filter-error" role="alert" hidden></p>
+<noscript><p class="archive-filter-explainer">浏览器未启用脚本，下方完整列出已有报告；可按分类跳转阅读。</p></noscript>
+<nav class="mp-archive-types" aria-label="报告类型"><a href="#daily" data-archive-category="daily">日报</a><a href="#weekly" data-archive-category="weekly">周报</a><a href="#monthly" data-archive-category="monthly">月报</a></nav>
+<p id="archive-filter-empty" class="archive-filter-empty" hidden>没有符合条件的报告。可以扩大日期范围，或点重置查看全部。</p>
+<section id="daily" data-report-section><h2>日报</h2><ul>
+<li id="day-20261102" data-report-row><time class="mp-archive-date" datetime="2026-11-02">2026-11-02 周一</time><span class="mp-archive-links"><a href="daily/20261102-pm.html" data-report-type="pm" data-report-category="daily" data-report-start="2026-11-02" data-report-end="2026-11-02">晚报</a></span></li>
+<li id="day-20261030" data-report-row><time class="mp-archive-date" datetime="2026-10-30">2026-10-30 周五</time><span class="mp-archive-links"><a href="daily/20261030-pm.html" data-report-type="pm" data-report-category="daily" data-report-start="2026-10-30" data-report-end="2026-10-30">晚报</a></span></li>
+<li id="day-20261029" data-report-row><time class="mp-archive-date" datetime="2026-10-29">2026-10-29 周四</time><span class="mp-archive-links"><a href="daily/20261029-pm.html" data-report-type="pm" data-report-category="daily" data-report-start="2026-10-29" data-report-end="2026-10-29">晚报</a></span></li>
+<li id="day-20261022" data-report-row><time class="mp-archive-date" datetime="2026-10-22">2026-10-22 周四</time><span class="mp-archive-links"><a href="daily/20261022-am.html" data-report-type="am" data-report-category="daily" data-report-start="2026-10-22" data-report-end="2026-10-22">早报</a><a href="daily/20261022-pm.html" data-report-type="pm" data-report-category="daily" data-report-start="2026-10-22" data-report-end="2026-10-22">晚报</a></span></li>
+<li id="day-20261014" data-report-row><time class="mp-archive-date" datetime="2026-10-14">2026-10-14 周三</time><span class="mp-archive-links"><a href="daily/20261014-pm.html" data-report-type="pm" data-report-category="daily" data-report-start="2026-10-14" data-report-end="2026-10-14">晚报</a></span></li>
+<li id="day-20261013" data-report-row><time class="mp-archive-date" datetime="2026-10-13">2026-10-13 周二</time><span class="mp-archive-links"><a href="daily/20261013-pm.html" data-report-type="pm" data-report-category="daily" data-report-start="2026-10-13" data-report-end="2026-10-13">晚报</a></span></li>
+<li id="day-20260929" data-report-row><time class="mp-archive-date" datetime="2026-09-29">2026-09-29 周二</time><span class="mp-archive-links"><a href="daily/20260929-am.html" data-report-type="am" data-report-category="daily" data-report-start="2026-09-29" data-report-end="2026-09-29">早报</a></span></li>
+<li id="day-20260928" data-report-row><time class="mp-archive-date" datetime="2026-09-28">2026-09-28 周一</time><span class="mp-archive-links"><a href="daily/20260928-pm.html" data-report-type="pm" data-report-category="daily" data-report-start="2026-09-28" data-report-end="2026-09-28">晚报</a></span></li>
+<li id="day-20260923" data-report-row><time class="mp-archive-date" datetime="2026-09-23">2026-09-23 周三</time><span class="mp-archive-links"><a href="daily/20260923-am.html" data-report-type="am" data-report-category="daily" data-report-start="2026-09-23" data-report-end="2026-09-23">早报</a><a href="daily/20260923-pm.html" data-report-type="pm" data-report-category="daily" data-report-start="2026-09-23" data-report-end="2026-09-23">晚报</a></span></li>
+<li id="day-20260922" data-report-row><time class="mp-archive-date" datetime="2026-09-22">2026-09-22 周二</time><span class="mp-archive-links"><a href="daily/20260922-am.html" data-report-type="am" data-report-category="daily" data-report-start="2026-09-22" data-report-end="2026-09-22">早报</a><a href="daily/20260922-pm.html" data-report-type="pm" data-report-category="daily" data-report-start="2026-09-22" data-report-end="2026-09-22">晚报</a></span></li>
 </ul></section>
-<section id="weekly"><h2>周报</h2><ul>
-<li id="week-202644-review"><span class="mp-archive-date">2026年第44周</span><a href="weekly/202644-review.html">周复盘</a></li>
-<li id="week-202643-review"><span class="mp-archive-date">2026年第43周</span><a href="weekly/202643-review.html">周复盘</a></li>
-<li id="week-202643-outlook"><span class="mp-archive-date">2026年第43周</span><a href="weekly/202643-outlook.html">周展望</a></li>
-<li id="week-202642-review"><span class="mp-archive-date">2026年第42周</span><a href="weekly/202642-review.html">周复盘</a></li>
-<li id="week-202642-outlook"><span class="mp-archive-date">2026年第42周</span><a href="weekly/202642-outlook.html">周展望</a></li>
-<li id="week-202640-review"><span class="mp-archive-date">2026年第40周</span><a href="weekly/202640-review.html">周复盘</a></li>
-<li id="week-202639-review"><span class="mp-archive-date">2026年第39周</span><a href="weekly/202639-review.html">周复盘</a></li>
+<section id="weekly" data-report-section><h2>周报</h2><ul>
+<li id="week-202644-review" data-report-row><span class="mp-archive-date">2026年第44周</span><a href="weekly/202644-review.html" data-report-type="weekly" data-report-category="weekly" data-report-start="2026-10-26" data-report-end="2026-11-01">周复盘</a></li>
+<li id="week-202643-review" data-report-row><span class="mp-archive-date">2026年第43周</span><a href="weekly/202643-review.html" data-report-type="weekly" data-report-category="weekly" data-report-start="2026-10-19" data-report-end="2026-10-25">周复盘</a></li>
+<li id="week-202643-outlook" data-report-row><span class="mp-archive-date">2026年第43周</span><a href="weekly/202643-outlook.html" data-report-type="weekly" data-report-category="weekly" data-report-start="2026-10-19" data-report-end="2026-10-25">周展望</a></li>
+<li id="week-202642-review" data-report-row><span class="mp-archive-date">2026年第42周</span><a href="weekly/202642-review.html" data-report-type="weekly" data-report-category="weekly" data-report-start="2026-10-12" data-report-end="2026-10-18">周复盘</a></li>
+<li id="week-202642-outlook" data-report-row><span class="mp-archive-date">2026年第42周</span><a href="weekly/202642-outlook.html" data-report-type="weekly" data-report-category="weekly" data-report-start="2026-10-12" data-report-end="2026-10-18">周展望</a></li>
+<li id="week-202640-review" data-report-row><span class="mp-archive-date">2026年第40周</span><a href="weekly/202640-review.html" data-report-type="weekly" data-report-category="weekly" data-report-start="2026-09-28" data-report-end="2026-10-04">周复盘</a></li>
+<li id="week-202639-review" data-report-row><span class="mp-archive-date">2026年第39周</span><a href="weekly/202639-review.html" data-report-type="weekly" data-report-category="weekly" data-report-start="2026-09-21" data-report-end="2026-09-27">周复盘</a></li>
 </ul></section>
-<section id="monthly"><h2>月报</h2><ul>
-<li id="month-202610"><span class="mp-archive-date">2026年10月</span><a href="monthly/202610.html">月度成绩单</a></li>
-<li id="month-202609"><span class="mp-archive-date">2026年9月</span><a href="monthly/202609.html">月度成绩单</a></li>
+<section id="monthly" data-report-section><h2>月报</h2><ul>
+<li id="month-202610" data-report-row><span class="mp-archive-date">2026年10月</span><a href="monthly/202610.html" data-report-type="monthly" data-report-category="monthly" data-report-start="2026-10-01" data-report-end="2026-10-31">月度成绩单</a></li>
+<li id="month-202609" data-report-row><span class="mp-archive-date">2026年9月</span><a href="monthly/202609.html" data-report-type="monthly" data-report-category="monthly" data-report-start="2026-09-01" data-report-end="2026-09-30">月度成绩单</a></li>
 </ul></section>
-<footer>本页是「市场脉搏」当期邮件报告的网页版, 正文与邮件同源(邮件另多一行指回本页的链接)。研究性分析, 不构成任何投资建议, 据此操作风险自负。</footer>
+<footer>目录仅列出已归档报告；数据时点、来源与说明以各篇正文为准。研究性分析，不构成投资建议。</footer>
 </main>
+<script id="mp-archive-filter-script">
+(() => {
+  'use strict';
+  const root=document.querySelector('.mp-archive'),form=document.querySelector('#archive-filter');
+  if(!root||!form)return;
+  const type=form.elements.type,from=form.elements.from,to=form.elements.to;
+  const status=document.querySelector('#archive-filter-status'),error=document.querySelector('#archive-filter-error');
+  const empty=document.querySelector('#archive-filter-empty'),links=[...root.querySelectorAll('[data-report-type]')];
+  const key='mp.reportArchive.filters.v1:'+location.pathname;
+  const types=['all','daily','am','pm','weekly','monthly'];
+  let active={type:'all',from:'',to:''},storage=true;
+  function validDate(value){
+    if(!value)return true;
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(value)||Number(value.slice(0,4))===0)return false;
+    const parsed=new Date(value+'T00:00:00Z');
+    return Number.isFinite(parsed.getTime())&&parsed.toISOString().slice(0,10)===value;
+  }
+  function validate(value){
+    if(!types.includes(value.type))return '报告类型无效，请重新选择。';
+    if(!validDate(value.from)||!validDate(value.to))return '日期无效，请使用有效的年月日。';
+    if(value.from&&value.to&&value.from>value.to)return '开始日期不能晚于结束日期。';
+    return '';
+  }
+  function message(value){error.textContent=value;error.hidden=!value;}
+  function controls(value){type.value=value.type;from.value=value.from;to.value=value.to;}
+  function persist(){
+    try{sessionStorage.setItem(key,JSON.stringify(active));}catch(_){storage=false;}
+  }
+  function writeUrl(hash){
+    const url=new URL(location.href);
+    for(const name of ['type','from','to'])url.searchParams.delete(name);
+    if(active.type!=='all')url.searchParams.set('type',active.type);
+    if(active.from)url.searchParams.set('from',active.from);
+    if(active.to)url.searchParams.set('to',active.to);
+    if(hash!==undefined)url.hash=hash;
+    try{history.replaceState(null,'',url.href);}catch(_){}
+  }
+  function render(note=''){
+    let shown=0;
+    for(const link of links){
+      const matchesType=active.type==='all'||link.dataset.reportType===active.type||link.dataset.reportCategory===active.type;
+      const matchesDate=(!active.from||link.dataset.reportEnd>=active.from)&&(!active.to||link.dataset.reportStart<=active.to);
+      link.hidden=!(matchesType&&matchesDate);if(!link.hidden)shown++;
+    }
+    root.querySelectorAll('[data-report-row]').forEach(row=>{row.hidden=![...row.querySelectorAll('[data-report-type]')].some(link=>!link.hidden);});
+    root.querySelectorAll('[data-report-section]').forEach(section=>{section.hidden=![...section.querySelectorAll('[data-report-row]')].some(row=>!row.hidden);});
+    root.querySelectorAll('[data-archive-category]').forEach(link=>{
+      const selected=link.dataset.archiveCategory===active.type||(active.type==='am'||active.type==='pm')&&link.dataset.archiveCategory==='daily';
+      if(selected)link.setAttribute('aria-current','true');else link.removeAttribute('aria-current');
+    });
+    empty.hidden=shown>0;
+    status.textContent=`显示 ${shown} / ${links.length} 篇报告。`+(note?' '+note:'')+(!storage?' 浏览器限制标签页存储；可用当前网址或浏览器返回保留筛选。':'');
+  }
+  function apply(value,{save=true,hash,note=''}={}){
+    const invalid=validate(value);if(invalid){message(invalid+' 下方仍保留上次结果。');return false;}
+    active=value;message('');controls(active);
+    if(save){persist();writeUrl(hash);}
+    render(note);return true;
+  }
+  function restore(){
+    const params=new URLSearchParams(location.search),explicit=['type','from','to'].some(name=>params.has(name));
+    let candidate={type:params.get('type')||'all',from:params.get('from')||'',to:params.get('to')||''},note='';
+    if(!explicit){
+      try{
+        const stored=JSON.parse(sessionStorage.getItem(key)||'null');
+        if(stored&&typeof stored==='object'&&['type','from','to'].every(name=>typeof stored[name]==='string')&&!validate(stored)){
+          candidate={type:stored.type,from:stored.from,to:stored.to};
+          if(candidate.type!=='all'||candidate.from||candidate.to)note='已恢复此标签页的筛选；可点重置查看全部。';
+        }
+      }catch(_){storage=false;}
+    }
+    const invalid=validate(candidate);
+    if(invalid){active={type:'all',from:'',to:''};controls(active);render();message(invalid+' 已显示全部报告，未采用该网址条件。');}
+    else apply(candidate,{save:false,note});
+    let anchor;try{anchor=decodeURIComponent(location.hash.slice(1));}catch(_){anchor='';}
+    if(!explicit&&['daily','weekly','monthly'].includes(anchor)){
+      apply({...active,type:anchor},{save:false});
+      if(document.getElementById(anchor)?.hidden){note='已清除日期限制以显示旧链接定位的报告类型。';apply({type:anchor,from:'',to:''},{save:false});}
+    }
+    const target=/^(day-\d{8}|week-\d{6}-(outlook|review)|month-\d{6})$/.test(anchor)?document.getElementById(anchor):null;
+    if(!explicit&&target&&target.hidden){note='已清除筛选以显示旧链接定位的报告。';apply({type:'all',from:'',to:''},{save:false});}
+    if(!invalid){persist();writeUrl();render(note);}
+  }
+  form.hidden=false;
+  form.addEventListener('submit',event=>{
+    event.preventDefault();
+    if(from.validity.badInput||to.validity.badInput){message('日期尚未填写完整；下方仍保留上次结果。');return;}
+    apply({type:type.value,from:from.value,to:to.value});
+  });
+  form.addEventListener('reset',event=>{event.preventDefault();apply({type:'all',from:'',to:''},{hash:''});});
+  root.querySelectorAll('[data-archive-category]').forEach(link=>link.addEventListener('click',event=>{
+    event.preventDefault();const category=link.dataset.archiveCategory;
+    if(apply({...active,type:category},{hash:category})){
+      const target=document.getElementById(category);if(target&&!target.hidden)target.scrollIntoView();else form.scrollIntoView();
+    }
+  }));
+  window.addEventListener('popstate',restore);
+  window.addEventListener('pageshow',event=>{if(event.persisted)restore();});
+  restore();
+})();
+</script>
 <!-- mpwb:after:start --></div><details class="mpwb-mobile-aux"><summary>工具与说明</summary><a href="method.html">口径与方法</a><a href="quiz.html">K 线练习</a></details></div><!-- mpwb:after:end --></body>
 </html>
