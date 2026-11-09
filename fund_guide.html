@@ -1,0 +1,448 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>基金偏离与套利说明 · 市场脉搏</title><style>
+.mpr{max-width:1180px;margin:auto;color:var(--mpwb-ink);font:15px/1.75 var(--mpwb-font);min-width:0}
+.mpr *{box-sizing:border-box}.mpr h1{font-size:30px;margin:0 0 12px}.mpr h2{font-size:22px;margin:0 0 14px}.mpr h3{font-size:19px;margin:0 0 8px}.mpr p{margin:8px 0}.mpr a{color:var(--mpwb-accent)}
+.mpr-head{margin-bottom:24px}.mpr-meta{font-size:13px;color:var(--mpwb-muted)}
+.mpr-note{border-left:3px solid var(--mpwb-accent);padding:14px 18px;background:var(--mpwb-accent-soft);margin:20px 0}
+.mpr-tabs{display:flex;flex-wrap:wrap;gap:12px;padding:14px 0;border-bottom:1px solid var(--mpwb-line);margin-bottom:24px}
+.mpr-tabs a,.mpr-button{display:inline-flex;padding:7px 14px;border:1px solid var(--mpwb-line);border-radius:7px;text-decoration:none;background:var(--mpwb-surface)}
+.mpr-section{scroll-margin-top:24px;margin:32px 0}.mpr-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.mpr-card{padding:22px;border:1px solid var(--mpwb-line);border-radius:10px;background:var(--mpwb-surface);min-width:0;scroll-margin-top:24px}
+.mpr-card ul{padding-left:20px}.mpr-card details{margin-top:14px}.mpr-card summary{cursor:pointer;color:var(--mpwb-accent)}
+.mpr-badge{display:inline-block;font-size:12px;border:1px solid var(--mpwb-line);padding:2px 8px;border-radius:5px;margin-bottom:12px;color:var(--mpwb-muted)}
+.mpr table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}.mpr th,.mpr td{text-align:left;border-bottom:1px solid var(--mpwb-line);padding:10px 12px;vertical-align:top}.mpr th{background:var(--mpwb-accent-soft)}
+.mpr-table{overflow-x:auto;border:1px solid var(--mpwb-line);border-radius:8px}.mpr small{display:block;color:var(--mpwb-muted)}.mpr code{font-family:var(--mpwb-mono,monospace);background:var(--mpwb-accent-soft);padding:2px 5px;border-radius:4px}
+.mpr-filters{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0;align-items:end}.mpr-filters label{display:flex;flex-direction:column;gap:5px;font-size:13px;min-width:145px}.mpr-filters input,.mpr-filters select{font:inherit;color:var(--mpwb-ink);background:var(--mpwb-surface);border:1px solid var(--mpwb-line);border-radius:7px;padding:9px 10px;min-height:42px;max-width:100%}.mpr-filters input{width:230px}.mpr-filters :focus-visible{outline:2px solid var(--mpwb-accent);outline-offset:3px}.mpr-fund-detail{border:1px solid var(--mpwb-line);border-radius:8px;padding:13px 16px;margin:8px 0;background:var(--mpwb-surface)}.mpr-fund-detail>summary{cursor:pointer;font-weight:600}.mpr [hidden]{display:none!important}.mpr-coverage{display:flex;flex-wrap:wrap;gap:8px 24px;padding:14px 0}.mpr-coverage span{white-space:nowrap}
+@media(max-width:760px){.mpr-grid{grid-template-columns:1fr}.mpr h1{font-size:26px}.mpr-card{padding:18px}.mpr-tabs{gap:8px}.mpr table{min-width:650px}}
+</style><!-- mpwb:style:start --><style id="mpwb-style">
+
+body.mpwb-body{
+  color-scheme:light;--mpwb-bg:#f6f8fa;--mpwb-surface:#fff;--mpwb-raised:#fff;
+  --mpwb-subtle:#f6f8fa;--mpwb-hover:#eef2f6;--mpwb-ink:#1f2328;--mpwb-muted:#57606a;
+  --mpwb-line:#d0d7de;--mpwb-line-soft:#e8ecf0;--mpwb-accent:#0969da;
+  --mpwb-accent-soft:#ddf4ff;--mpwb-accent-line:#8cbbef;--mpwb-button:#0969da;--mpwb-button-ink:#fff;
+  --mpwb-up:#b42332;--mpwb-down:#18733b;--mpwb-danger-bg:#ffebe9;
+  --mpwb-success:#18733b;--mpwb-success-bg:#dafbe1;--mpwb-warning:#865800;--mpwb-warning-bg:#fff8c5;
+  --mpwb-code-key:#8250df;--mpwb-code-str:#0a3069;--mpwb-code-num:#0550ae;
+  --mpwb-chart-purple:#8250df;--mpwb-chart-pink:#bf3989;--mpwb-chart-orange:#953800;
+  --mpwb-chart-amber:#865800;--mpwb-chart-slate:#57606a;--mpwb-shadow:rgba(31,35,40,.08);--mpwb-backdrop:rgba(13,17,23,.6);
+  --mpwb-radius:8px;--mpwb-card-gap:20px;--mpwb-content-max:1280px;
+  --mpwb-sidebar-width:224px;--mpwb-page-pad:24px;--mpwb-focus:#0969da;
+  --mpwb-font:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+  margin:0!important;padding:0!important;max-width:none!important;min-width:0;
+  background:var(--mpwb-bg)!important;color:var(--mpwb-ink)!important;
+}
+html[data-mpwb-theme='dark'] body.mpwb-body{
+  color-scheme:dark;--mpwb-bg:#0d1117;--mpwb-surface:#161b22;--mpwb-raised:#1c232d;
+  --mpwb-subtle:#0d1117;--mpwb-hover:#212a36;--mpwb-ink:#e6edf3;--mpwb-muted:#9da7b3;
+  --mpwb-line:#3d4856;--mpwb-line-soft:#28313d;--mpwb-accent:#79c0ff;
+  --mpwb-accent-soft:#142b43;--mpwb-accent-line:#3c6f9c;--mpwb-button:#79c0ff;--mpwb-button-ink:#0d1117;
+  --mpwb-up:#ff919b;--mpwb-down:#75d69a;--mpwb-danger-bg:#3c2026;
+  --mpwb-success:#75d69a;--mpwb-success-bg:#142e21;--mpwb-warning:#e7bf6b;--mpwb-warning-bg:#342c19;
+  --mpwb-code-key:#d2a8ff;--mpwb-code-str:#a5d6ff;--mpwb-code-num:#79c0ff;
+  --mpwb-chart-purple:#d2a8ff;--mpwb-chart-pink:#ff9bce;--mpwb-chart-orange:#ffa657;
+  --mpwb-chart-amber:#e7bf6b;--mpwb-chart-slate:#b1bac4;--mpwb-shadow:rgba(0,0,0,.25);--mpwb-focus:#79c0ff;
+}
+.mpwb-theme-switch{display:flex;gap:3px;flex-shrink:0;padding:3px;border:1px solid var(--mpwb-line);
+  border-radius:7px;background:var(--mpwb-subtle);font:12px/1.5 var(--mpwb-font);}
+.mpwb-theme-switch button{min-height:32px;padding:5px 10px;border:1px solid transparent;border-radius:4px;
+  background:transparent;color:var(--mpwb-muted);font:inherit;cursor:pointer;}
+.mpwb-theme-switch button[aria-pressed='true']{background:var(--mpwb-surface);border-color:var(--mpwb-line);color:var(--mpwb-ink);}
+.mpwb-theme-switch button:focus-visible{outline:3px solid var(--mpwb-focus);outline-offset:2px;}
+.mpwb-sidebar,.mpwb-main,.mpwb-topbar,.mpwb-subnav,.mpwb-content,.mpwb-context-actions,
+.mpwb-sidebar *,.mpwb-topbar *,.mpwb-subnav *,.mpwb-context-actions *{box-sizing:border-box;}
+.mpwb-sidebar{position:fixed;inset:0 auto 0 0;width:var(--mpwb-sidebar-width);z-index:20;
+  display:flex;flex-direction:column;padding:30px 18px 22px;background:var(--mpwb-surface);
+  border-right:1px solid var(--mpwb-line);font:13px/1.6 var(--mpwb-font);color:var(--mpwb-ink);}
+.mpwb-brand{display:flex;align-items:center;gap:10px;margin:0 5px 34px;
+  color:var(--mpwb-ink)!important;text-decoration:none!important;font-size:18px;font-weight:700;}
+.mpwb-brand-mark{display:grid;place-items:center;flex-shrink:0;width:36px;height:36px;
+  border-radius:7px;background:var(--mpwb-accent-soft);color:var(--mpwb-accent);font-size:28px;line-height:1;}
+.mpwb-brand-copy{letter-spacing:-.4px;}
+.mpwb-brand-copy small{display:block;font-size:10px;font-weight:400;letter-spacing:.4px;
+  color:var(--mpwb-muted);line-height:1.8;margin-top:3px;}
+.mpwb-caption{padding:0 13px;margin-bottom:12px;font-size:11px;letter-spacing:1px;color:var(--mpwb-muted);}
+.mpwb-nav{display:flex;flex-direction:column;gap:7px;}
+.mpwb-nav-item{display:flex;align-items:center;gap:12px;min-height:46px;padding:12px 14px;
+  border:0;border-radius:10px;font-size:13px;font-weight:500;line-height:1.5;
+  color:var(--mpwb-muted)!important;text-decoration:none!important;white-space:nowrap;}
+a.mpwb-nav-item:hover{background:var(--mpwb-hover);color:var(--mpwb-accent)!important;}
+.mpwb-nav-item.mpwb-active{background:var(--mpwb-accent-soft);color:var(--mpwb-accent)!important;font-weight:650;}
+.mpwb-nav-item.mpwb-disabled{color:var(--mpwb-muted)!important;cursor:default;}
+.mpwb-nav-icon,.mpwb-action-icon{display:inline-grid;place-items:center;flex-shrink:0;width:20px;height:20px;line-height:1;}
+.mpwb-nav-icon svg,.mpwb-action-icon svg{display:block;width:20px;height:20px;max-width:none;min-width:0;margin:0;background:none;border:0;}
+.mpwb-nav-icon svg *,.mpwb-action-icon svg *{fill:none;stroke:currentColor;}
+.mpwb-nav-item.mpwb-active:after{content:'';margin-left:auto;width:5px;height:5px;border-radius:50%;background:var(--mpwb-accent);}
+.mpwb-aux{margin-top:auto;padding:20px 12px 16px;font-size:12px;color:var(--mpwb-muted);}
+.mpwb-aux summary,.mpwb-mobile-aux summary{cursor:pointer;}
+.mpwb-aux a{display:block;color:var(--mpwb-accent);text-decoration:none;padding:10px 0 0;}
+.mpwb-sidebar-foot{padding:0 12px;color:var(--mpwb-muted);font-size:10px;line-height:1.9;}
+.mpwb-main{margin-left:var(--mpwb-sidebar-width);min-width:0;min-height:100vh;}
+.mpwb-topbar{max-width:var(--mpwb-content-max);margin:0 auto;padding:18px var(--mpwb-page-pad) 0;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:56px;background:transparent;border:0;
+  font:12px/1.6 var(--mpwb-font);color:var(--mpwb-muted);}
+.mpwb-breadcrumb{display:flex;align-items:center;gap:7px;min-width:0;flex-wrap:wrap;}
+.mpwb-breadcrumb a{color:var(--mpwb-muted);text-decoration:none;}
+.mpwb-breadcrumb a:hover{color:var(--mpwb-accent);}
+.mpwb-breadcrumb .mpwb-action-icon,.mpwb-breadcrumb .mpwb-action-icon svg{width:16px;height:16px;}
+.mpwb-subnav{display:flex;gap:6px;flex-wrap:wrap;max-width:var(--mpwb-content-max);margin:0 auto;
+  padding:22px var(--mpwb-page-pad) 0;font:12px/1.5 var(--mpwb-font);}
+.mpwb-subnav a{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:7px 14px;
+  border:1px solid transparent;border-radius:8px;background:transparent;color:var(--mpwb-muted);text-decoration:none;}
+.mpwb-subnav a[aria-current='page']{color:var(--mpwb-accent);background:var(--mpwb-surface);border-color:var(--mpwb-accent-line);font-weight:600;}
+.mpwb-subnav a:hover{color:var(--mpwb-accent);background:var(--mpwb-accent-soft);}
+.mpwb-context-actions{display:flex;gap:16px;flex-wrap:wrap;max-width:var(--mpwb-content-max);margin:0 auto;
+  padding:10px var(--mpwb-page-pad) 0;font:12px/1.6 var(--mpwb-font);}
+.mpwb-context-actions a{display:inline-flex;align-items:center;gap:3px;min-height:24px;
+  color:var(--mpwb-accent);text-decoration:none;}
+.mpwb-context-actions a:hover{text-decoration:underline;text-underline-offset:3px;}
+.mpwb-context-actions .mpwb-action-icon,.mpwb-context-actions .mpwb-action-icon svg{width:14px;height:14px;}
+.mpwb-content{max-width:var(--mpwb-content-max);margin:0 auto;padding:22px var(--mpwb-page-pad) 36px;min-width:0;}
+.mpwb-content{--card2:var(--mpwb-subtle);--line:var(--mpwb-line);
+  --sw-def:var(--mpwb-accent);--sw-bt:var(--mpwb-chart-orange);}
+.mpwb-content>.wrap{width:100%;max-width:none;margin:0;padding:0;min-width:0;}
+.mpwb-main:not(.mpwb-report) .mpwb-content{font:14px/1.7 var(--mpwb-font);color:var(--mpwb-ink);}
+.mpwb-main:not(.mpwb-report) .mpwb-content>.wrap>header.site{
+  padding:0;margin:0 0 18px;background:transparent;color:var(--mpwb-ink);border:0;border-radius:0;box-shadow:none;}
+.mpwb-main:not(.mpwb-report) .mpwb-content>.wrap>header.site h1,
+.mpwb-main:not(.mpwb-report) .mpwb-content>.wrap>h1{font:650 24px/1.35 var(--mpwb-font);letter-spacing:-.35px;
+  color:var(--mpwb-ink);margin:0 0 8px;}
+.mpwb-main:not(.mpwb-report) .mpwb-content>.wrap>header.site .sub{color:var(--mpwb-muted);font-size:12px;line-height:1.7;margin-top:5px;}
+.mpwb-main:not(.mpwb-report) .mpwb-content>.wrap>header.site a{color:var(--mpwb-accent);}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(h2,h3){font-family:var(--mpwb-font);color:var(--mpwb-ink);font-weight:600;line-height:1.5;}
+.mpwb-main:not(.mpwb-report) .mpwb-content h2{font-size:16px;margin:0 0 12px;}
+.mpwb-main:not(.mpwb-report) .mpwb-content h3{font-size:14px;}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(div,span,p,small,footer):is(.dim,.dim2,.tiny,.pcode,.scode,.wcode,.cd,footer.site){font-size:12px;line-height:1.7;}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(div,span,p,small,footer):is(.dim2,.pcode,.scode,.wcode,.cd,footer.site){color:var(--mpwb-muted);}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(.card,.fm-card,.sw-card){border-color:var(--mpwb-line);border-radius:var(--mpwb-radius);padding:20px;}
+.mpwb-main:not(.mpwb-report) .mpwb-content>.wrap>.card{margin-bottom:var(--mpwb-card-gap);}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(.fm-grid,.sw-cards){gap:var(--mpwb-card-gap);}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(.tip,.ugly,.mtwarn,.l2s-note){border-radius:10px;font-size:12px;line-height:1.75;}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(.scroll,.sbwrap,.sw-chart){max-width:100%;overflow-x:auto;overscroll-behavior-inline:contain;}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(table.panel,table.l2s,table.mtab){font-variant-numeric:tabular-nums;}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(table.panel,table.l2s,table.mtab) :is(th,td){border-bottom-color:var(--mpwb-line);}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(.lhead,.whead){font-size:12px;color:var(--mpwb-muted);}
+.mpwb-main:not(.mpwb-report) .mpwb-content .lrow{font-size:13px;border-color:var(--mpwb-line);border-radius:9px;}
+.mpwb-main:not(.mpwb-report) .mpwb-content a.lrow:hover{background:var(--mpwb-hover);border-color:var(--mpwb-accent-line);}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(.wsum,.wex,.srow,.prow){font-size:13px;}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(.srow,.prow,.wrow){border-color:var(--mpwb-line);}
+.mpwb-main:not(.mpwb-report) .mpwb-content .wrow[open]{background:var(--mpwb-subtle);}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(.searchbox input,input#fq,input#fm-in,textarea,select){
+  box-sizing:border-box;min-height:40px;padding:9px 12px;border:1px solid var(--mpwb-line);border-radius:9px;
+  background:var(--mpwb-surface);color:var(--mpwb-ink);font:13px/1.5 var(--mpwb-font);}
+.mpwb-main:not(.mpwb-report) .mpwb-content .searchbox input{max-width:400px;}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(button,.btn){font-family:var(--mpwb-font);}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(.btn,.qgo,.qnext,#modes button,#runbar button){
+  min-height:36px;padding:7px 12px;border:1px solid var(--mpwb-line);border-radius:8px;font-size:12px;line-height:1.5;
+  background:var(--mpwb-surface);color:var(--mpwb-accent);cursor:pointer;}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(.btn.on,.qgo,.qnext,#modes button){background:var(--mpwb-button);border-color:var(--mpwb-button);color:var(--mpwb-button-ink);}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(.btn,.qgo,.qnext):disabled{opacity:.5;cursor:default;}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(.filters .chip,.cpre .chip){border-color:var(--mpwb-line);background:var(--mpwb-surface);color:var(--mpwb-muted);font-size:12px;padding:4px 10px;}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(.filters .chip.on,.cpre .chip.on){background:var(--mpwb-accent-soft);color:var(--mpwb-accent);border-color:var(--mpwb-accent-line);}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(.filters .chip,.cpre .chip):hover{border-color:var(--mpwb-accent-line);color:var(--mpwb-accent);}
+.mpwb-main:not(.mpwb-report) .mpwb-content .star{min-width:40px;min-height:40px;border-radius:8px;}
+.mpwb-main:not(.mpwb-report) .mpwb-content .prow{grid-template-columns:40px 62px minmax(90px,1.2fr) 1fr;}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(.fm-none,.mpwb-unavailable){font-size:12px;color:var(--mpwb-muted);}
+.mpwb-main:not(.mpwb-report) .mpwb-content footer.site{padding:16px 0 26px;}
+.mpwb-research-context,.mpwb-research-options{margin:10px 0;border:1px solid var(--mpwb-line);
+  border-radius:10px;background:var(--mpwb-surface);min-width:0;font:12px/1.7 var(--mpwb-font);color:var(--mpwb-muted);}
+.mpwb-research-context>summary,.mpwb-research-options>summary{cursor:pointer;padding:10px 13px;}
+.mpwb-disclosure-body{padding:0 14px 14px;min-width:0;}
+.mpwb-research-context .mpwb-disclosure-body{max-height:440px;overflow:auto;}
+.mpwb-main[data-mp-page='index.html'] #search{margin:12px 0 8px;}
+.mpwb-main[data-mp-page='index.html'] #filters{margin:8px 0;}
+.mpwb-main[data-mp-page='index.html'] .chips{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:6px;padding-bottom:4px;}
+.mpwb-main[data-mp-page='index.html'] .chips>*{flex-shrink:0;}
+.mpwb-main[data-mp-page='index.html'] :is(.mpwb-research-context,.mpwb-research-options){margin:8px 0;}
+.mpwb-main[data-mp-page^='s/'] .peerfold>div,
+.mpwb-main[data-mp-page='method.html'] .mpwb-table-scroll{min-width:0;max-width:100%;overflow-x:auto;overscroll-behavior-inline:contain;}
+.mpwb-main[data-mp-page='quiz.html'] .mpwb-content>.wrap>:is(.card.dim,.tiny){color:var(--mpwb-muted);}
+.mpwb-main:is([data-mp-page='lab.html'],[data-mp-page='alpha.html'],[data-mp-page='fields.html'],[data-mp-page='sweep.html'],[data-mp-page^='lab/'],[data-mp-page^='alpha/'])
+  .mpwb-content :is(table,.dim,.card,.sw-card) a[href]:not([class]):not([style]){color:var(--mpwb-accent);}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(.tkterm>.tktip,.term>.tip,.term>.tip.qtip){
+  display:none;position:fixed;left:auto;right:24px;top:auto;bottom:24px;box-sizing:border-box;
+  width:max-content;max-width:min(340px,calc(100vw - var(--mpwb-sidebar-width) - 48px));
+  max-height:50vh;overflow:auto;transform:none;pointer-events:auto;}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(.tkterm,.term):is(:hover,:focus,:focus-within)>:is(.tktip,.tip){display:block;visibility:visible;opacity:1;}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(.term>.tip)::before,
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(.term>.tip)::after{display:none;}
+.mpwb-report .mpwb-content>table{width:100%!important;max-width:640px!important;margin-left:auto;margin-right:auto;table-layout:fixed;}
+.mpwb-report .mpwb-content table[width='640']{width:100%!important;max-width:640px!important;table-layout:fixed;}
+.mpwb-report .mpwb-content>table table{max-width:100%;}
+.mpwb-skip{position:fixed;left:calc(var(--mpwb-sidebar-width) + 12px);top:-70px;z-index:40;padding:10px 15px;
+  background:var(--mpwb-surface);color:var(--mpwb-accent);border:1px solid var(--mpwb-line);border-radius:8px;text-decoration:none;}
+.mpwb-skip:focus{top:10px;}
+.mpwb-sidebar :is(a,summary):focus-visible,.mpwb-topbar a:focus-visible,.mpwb-subnav a:focus-visible,
+.mpwb-context-actions a:focus-visible,.mpwb-mobile-aux :is(a,summary):focus-visible,
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(a,button,input,textarea,select,summary,.mpwb-table-scroll):focus-visible{
+  outline:3px solid var(--mpwb-focus);outline-offset:3px;}
+.mpwb-main:not(.mpwb-report) .mpwb-content :is(input,textarea,select):focus-visible{border-color:var(--mpwb-accent);outline-width:2px;outline-offset:1px;}
+.mpwb-mobile-aux{display:none;}
+@media(max-width:1080px){body.mpwb-body{--mpwb-sidebar-width:188px;--mpwb-page-pad:20px;}
+  .mpwb-sidebar{padding-left:12px;padding-right:12px;}.mpwb-brand{font-size:16px;gap:8px;}}
+@media(max-width:760px){body.mpwb-body{--mpwb-sidebar-width:0px;--mpwb-page-pad:14px;--mpwb-card-gap:16px;}
+  .mpwb-sidebar{inset:auto 0 0;width:100%;height:calc(64px + env(safe-area-inset-bottom,0px));
+    padding:0 0 env(safe-area-inset-bottom,0px);border-right:0;border-top:1px solid var(--mpwb-line);display:block;}
+  .mpwb-brand,.mpwb-caption,.mpwb-sidebar-foot,.mpwb-aux{display:none;}
+  .mpwb-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;height:64px;}
+  .mpwb-nav-item{min-height:64px;padding:8px 2px 7px;flex-direction:column;justify-content:center;gap:5px;
+    border-radius:0;font-size:11px;line-height:1.4;}
+  .mpwb-nav-item.mpwb-active:after{display:none;}
+  .mpwb-main{margin-left:0;padding-bottom:calc(76px + env(safe-area-inset-bottom,0px));}
+  .mpwb-topbar{padding-top:14px;min-height:54px;gap:10px;}
+  .mpwb-theme-switch button{min-height:40px;min-width:44px;}
+  .mpwb-subnav{padding-top:14px;gap:4px;}.mpwb-subnav a{min-height:40px;padding:8px 12px;}
+  .mpwb-context-actions{padding-top:7px;gap:15px;}.mpwb-context-actions a{min-height:30px;}
+  .mpwb-content{padding-top:18px;padding-bottom:24px;}
+  .mpwb-main:not(.mpwb-report) .mpwb-content>.wrap>header.site{margin-bottom:16px;}
+  .mpwb-main:not(.mpwb-report) .mpwb-content>.wrap>header.site h1,
+  .mpwb-main:not(.mpwb-report) .mpwb-content>.wrap>h1{font-size:22px;letter-spacing:-.25px;}
+  .mpwb-main:not(.mpwb-report) .mpwb-content :is(.card,.fm-card,.sw-card){padding:16px;}
+  .mpwb-main:not(.mpwb-report) .mpwb-content :is(.searchbox input,input#fq,input#fm-in,textarea,select){min-height:44px;font-size:16px;}
+  .mpwb-main:not(.mpwb-report) .mpwb-content :is(.btn,.qgo,.qnext,#modes button,#runbar button,.star){min-height:44px;min-width:44px;}
+  .mpwb-main:not(.mpwb-report) .mpwb-content .star{min-width:44px;}
+  .mpwb-main[data-mp-page='watchlist.html'] .prow{grid-template-columns:44px 60px minmax(0,1fr);gap:7px;padding:8px 0;}
+  .mpwb-main[data-mp-page='watchlist.html'] .prow .pind{grid-column:2/-1;}
+  .mpwb-main[data-mp-page='search.html'] .srow{grid-template-columns:62px minmax(0,1fr) auto;gap:8px;padding:12px 0;}
+  .mpwb-main[data-mp-page='search.html'] .srow .sstate{grid-column:1/3;grid-row:2;}
+  .mpwb-main[data-mp-page='search.html'] .srow>:last-child{grid-column:3;grid-row:1/3;max-width:110px;}
+  .mpwb-main:not(.mpwb-report) .mpwb-content :is(.sw-cards,.fm-grid){grid-template-columns:minmax(0,1fr);}
+  .mpwb-main:not(.mpwb-report) .mpwb-content :is(.tkterm>.tktip,.term>.tip,.term>.tip.qtip){
+    position:fixed;left:14px;right:14px;top:auto;bottom:calc(80px + env(safe-area-inset-bottom,0px));
+    box-sizing:border-box;width:auto;max-width:none;max-height:35vh;overflow:auto;transform:none;pointer-events:auto;}
+  .mpwb-mobile-aux{display:block;padding:0 var(--mpwb-page-pad) 14px;font:12px/1.7 var(--mpwb-font);color:var(--mpwb-muted);}
+  .mpwb-mobile-aux a{display:inline-block;margin:10px 16px 0 0;color:var(--mpwb-accent);}
+  .mpwb-skip{left:12px;}
+  .mpwb-report .mpwb-content table{width:100%!important;max-width:100%!important;table-layout:fixed;}
+  .mpwb-report .mpwb-content td,.mpwb-report .mpwb-content th{min-width:0!important;white-space:normal!important;overflow-wrap:anywhere;word-break:normal;}
+}
+</style><!-- mpwb:style:end --><!-- mpwb:theme:start --><script id="mpwb-theme-script">
+(() => {
+  'use strict';
+  const root = document.documentElement, key = 'mpwb-theme-v1';
+  const valid = value => value === 'light' || value === 'dark';
+  let initial = 'light';
+  try {
+    const stored = localStorage.getItem(key) || localStorage.getItem('mp-md-theme-v1');
+    if (valid(stored)) initial = stored;
+  } catch (_) {}
+  function apply(value, persist) {
+    const theme = valid(value) ? value : 'light';
+    root.dataset.mpwbTheme = theme;
+    root.querySelectorAll('[data-mpwb-theme-choice]').forEach(button => {
+      button.setAttribute('aria-pressed', String(button.dataset.mpwbThemeChoice === theme));
+    });
+    if (persist) { try { localStorage.setItem(key, theme); } catch (_) {} }
+  }
+  apply(initial, false);
+  function bind() {
+    apply(root.dataset.mpwbTheme, false);
+    root.querySelectorAll('[data-mpwb-theme-choice]').forEach(button => {
+      button.addEventListener('click', () => apply(button.dataset.mpwbThemeChoice, true));
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind, {once:true});
+  else bind();
+  window.addEventListener('storage', event => {
+    if (event.key === key) apply(event.newValue, false);
+  });
+})();
+</script><!-- mpwb:theme:end --></head><body class="mpwb-body"><!-- mpwb:before:start --><a class="mpwb-skip" href="#mpwb-content">跳至页面内容</a><aside class="mpwb-sidebar" aria-label="工作台导航"><a class="mpwb-brand" href="hub.html"><span class="mpwb-brand-mark">m</span><span class="mpwb-brand-copy">Market Desk<small>市场脉搏 · 研究工作台</small></span></a><div class="mpwb-caption">工作台</div><nav class="mpwb-nav" aria-label="四个入口"><a class="mpwb-nav-item mpwb-active" href="hub.html" aria-current="page"><span class="mpwb-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 19V5M4 19h16M8 15l4-5 4 2 4-7"/></svg></span><span>市场</span></a><a class="mpwb-nav-item" href="index.html"><span class="mpwb-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4M8 10.5h5M10.5 8v5"/></svg></span><span>标的研究</span></a><a class="mpwb-nav-item" href="strategy_archive.html"><span class="mpwb-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3M8 15h8"/></svg></span><span>量化实验</span></a><a class="mpwb-nav-item" href="reports.html"><span class="mpwb-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h3M8 15h8M8 18h8"/><path d="M14 10h2v2h-2z"/></svg></span><span>报告与复盘</span></a></nav><details class="mpwb-aux"><summary>工具与说明</summary><a href="method.html">口径与方法</a><a href="quiz.html">K 线练习</a></details><div class="mpwb-sidebar-foot">数据时点与来源见各页<br>研究工具 · 保留独立口径</div></aside><div class="mpwb-main" data-mp-page="fund_guide.html"><header class="mpwb-topbar"><div class="mpwb-breadcrumb"><span class="mpwb-action-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5m5-5-5 5 5 5"/></svg></span><a href="fund_tracking.html">基金价差观察</a></div><div class="mpwb-theme-switch" role="group" aria-label="页面配色"><button type="button" data-mpwb-theme-choice="light" aria-pressed="true">浅色</button><button type="button" data-mpwb-theme-choice="dark" aria-pressed="false">深色</button></div></header><div class="mpwb-content" id="mpwb-content" tabindex="-1"><!-- mpwb:before:end --><main class="mpr" data-public-research="read-only"><header class="mpr-head" id="fund-guide">
+  <span class="mpr-badge">基金观察 · 阅读说明</span>
+  <h1>基金偏离说明什么，怎样研究套利？</h1>
+  <p>偏离描述价格与净值的差异。要判断能否兑现，还要把申赎、份额可用、成交和到账串起来。</p>
+  <p><a class="mpr-button" href="fund_tracking.html">返回基金价差观察</a></p>
+</header>
+<nav class="mpr-tabs" aria-label="基金说明目录">
+  <a href="#deviation">偏离怎么读</a>
+  <a href="#lof-paths">LOF 两条路径</a>
+  <a href="#fund-accounts">场内、场外与份额</a>
+  <a href="#etf-paths">ETF 的门槛</a>
+  <a href="#cost-examples">扣费算例</a>
+  <a href="#product-checklist">实际要查什么</a>
+  <a href="#official-sources">官方资料</a>
+</nav>
+
+<section class="mpr-section" id="deviation">
+  <h2>偏离的正负，表示相对哪一个净值贵或便宜</h2>
+  <p><strong>观察页的价格偏离 =（场内价格 ÷ 已披露单位净值 − 1）× 100%。</strong>
+  两项必须对应同一份额类别和币种，不能用累计净值替代单位净值。</p>
+  <div class="mpr-grid">
+    <article class="mpr-card">
+      <h3>正偏离：相对所列净值溢价</h3>
+      <p>假设价格 1.03 元、单位净值 1.00 元，偏离为 +3%。意思是价格比这份净值高 3%，
+      并不代表现在申购再卖出就能赚 3%。</p>
+    </article>
+    <article class="mpr-card">
+      <h3>负偏离：相对所列净值折价</h3>
+      <p>假设价格 0.97 元、单位净值 1.00 元，偏离为 −3%。意思是价格比这份净值低 3%，
+      并不保证净值不会下降，也不保证赎回后有利润。</p>
+    </article>
+  </div>
+  <p>场内价格受买卖供需影响；净值反映基金资产扣除负债后的每份价值。两者不同，不能仅凭偏离认定价格一定会回归。
+  <a href="#source-lof-prices">查看价格与净值的官方说明</a>。</p>
+  <div class="mpr-note">
+    <strong>先看收盘日、净值日和披露日。</strong>
+    <p>观察页可能将不同日期的价格与 NAV（基金单位净值）放在一起。这种历史偏离不等于当前折溢价；
+    刷新了快照，也不代表每只基金都取得了同一天的数据。历史 NAV 不能直接当作今天的申购成本或赎回所得。</p>
+    <p>跨境／QDII 还受海外交易时段、休市和汇率影响，即使日期相同也未必对应同一估值时刻。
+    ETF 的盘中参考净值 IOPV 也可能有估算误差，不是保证成交价。
+    <a href="#source-qdii">QDII 日期与汇率</a> · <a href="#source-iopv">IOPV 参考边界</a>。</p>
+  </div>
+</section>
+
+<section class="mpr-section" id="lof-paths">
+  <h2>LOF：溢价和折价对应不同的申赎路径</h2>
+  <p>下列流程以产品开放相关业务、份额和账户符合条件为前提。LOF 的申购与赎回通常采用未知价原则，
+  申请时尚不知道最终适用的净值；等到确认时，市场价格或净值可能已经变化。</p>
+  <div class="mpr-grid">
+    <article class="mpr-card" id="lof-premium">
+      <h3>溢价路径：申购 → 份额可卖 → 场内卖出</h3>
+      <ol>
+        <li>先确认该上市份额是否开放申购、渠道能否办理、额度是否足够，再提交申购。</li>
+        <li>等待份额确认并达到可卖条件。若从场外申购，还要确认支持跨系统转托管并完成转入。</li>
+        <li>份额可卖后，按届时实际可成交的买盘卖出，计算净收入能否覆盖申购支出与全部成本。</li>
+      </ol>
+      <p><strong>等待期间不锁价。</strong>现在的溢价可能在份额可卖前消失；申购也可能因限额或暂停而无法确认。
+      今日收盘价不是未来卖价。</p>
+    </article>
+    <article class="mpr-card" id="lof-discount">
+      <h3>折价路径：场内买入 → 份额可赎回 → 赎回到账</h3>
+      <ol>
+        <li>先核对赎回开放状态、持有期对应的费用及可赎回时点，再按实际卖盘买入。</li>
+        <li>份额符合条件后，通过支持的场内申赎渠道赎回；需要场外赎回时，先完成允许的转托管。</li>
+        <li>按实际确认净值、份额和费用计算赎回所得，并等待资金到账。</li>
+      </ol>
+      <p><strong>买入价确定后，赎回净值仍可能下降。</strong>短期赎回费或等待成本也可能超过表面折价。
+      场内卖出与向基金赎回，是两个不同操作。</p>
+    </article>
+  </div>
+  <p class="mpr-meta">规则入口：<a href="#source-sse-lof">沪市 LOF 业务指引</a> ·
+  <a href="#source-szse-lof">深市 LOF 申赎说明</a>。沪深市场的买入后可赎回时点存在差别，不能互相套用。</p>
+</section>
+
+<section class="mpr-section" id="fund-accounts">
+  <h2>场内、场外与份额类别，要分别核对</h2>
+  <div class="mpr-table" tabindex="0" role="region" aria-label="基金买卖与申赎的区别">
+    <table>
+      <thead><tr><th scope="col">操作</th><th scope="col">价格依据</th><th scope="col">要确认什么</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">场内买卖</th><td>交易所撮合的实际成交价</td><td>是否上市、能否交易、买卖盘深度、可用份额与资金。</td></tr>
+        <tr><th scope="row">场内申购／赎回 LOF</th><td>合同约定的有效申请日净值及费用</td><td>券商有无该项业务、申赎是否开放、份额何时可卖或可赎回。</td></tr>
+        <tr><th scope="row">场外申购／赎回 LOF</th><td>合同约定的有效申请日净值及费用</td><td>具体销售渠道、份额类别、限额、确认及资金到账安排。</td></tr>
+        <tr><th scope="row">跨系统转托管</th><td>转移份额登记／托管关系，本身不兑现价差</td><td>产品和渠道是否支持、账户关联、转入方交易单元等资料，以及办理时间。</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>名称相近，不代表拿到的是同一种可上市份额。</strong>
+  A／C 类、人民币／外币份额可能有不同代码、净值、费率与登记安排；是否上市、能否转托管或转换，要查具体类别。
+  转托管不会自动把不上市的份额变成上市份额，也不能一概认定所有 C 类都不能上市。
+  <a href="#source-share-class">份额类别公告示例</a> · <a href="#source-transfer">基金公司转托管说明</a>。</p>
+  <p><strong>交易、申购确认、可卖、可赎回、到账是不同时间点。</strong>
+  境内普通股票 LOF 与符合条件的跨境 LOF，回转交易规则不同；能当日买卖也不等于申购所得份额能立即卖出。
+  具体还取决于交易所、产品、交易方式和渠道。本页不统一承诺 T+n、费率或额度。
+  <a href="#source-crossborder-trading">跨境回转交易的适用条件</a>。</p>
+</section>
+
+<section class="mpr-section" id="etf-paths">
+  <h2>ETF：一级市场申赎有额外门槛</h2>
+  <p>二级市场买卖 ETF 份额，与一级市场申购赎回是两种业务。一级申赎按产品约定交付或取得证券、现金等对价，
+  不能把“可以买一手 ETF”理解为“已经满足申赎条件”。
+  <a href="#source-etf-mechanism">上交所 ETF 机制说明</a>。</p>
+  <div class="mpr-grid">
+    <article class="mpr-card">
+      <h3>溢价方向</h3>
+      <p>按当日申购赎回清单（PCF）备齐规定对价 → 申购 ETF → 份额符合可卖条件后场内卖出。</p>
+    </article>
+    <article class="mpr-card">
+      <h3>折价方向</h3>
+      <p>买入满足最小申赎单位的 ETF → 按规则赎回 → 取得证券或现金 → 完成必要变现与清算。</p>
+    </article>
+  </div>
+  <p>需要同时核对最小申赎单位及其整数倍、参与券商、申赎状态和额度、现金替代、预估现金与退补款。
+  证券停牌、成交冲击、替代成本或清算等待都可能改变结果；不同 ETF 的对价与时序并不相同。
+  <a href="#source-etf-costs">ETF 路径与成本说明</a>。</p>
+  <p>例如某日 PCF 标为“仅允许赎回”，只能说明该日不能走申购路径；不能用另一日的清单推断今天，
+  也不能仅凭“允许赎回”认定扣费后可盈利。</p>
+</section>
+
+<section class="mpr-section" id="cost-examples">
+  <h2>把价差换成钱，再扣完整路径的成本</h2>
+  <p><strong>净差额 = 实际卖出／赎回收入 − 买入／申购本金 − 尚未计入前两项的全部成本。</strong>
+  估算时也用同一结构，并为价格和净值变化留出余量；偏离超过某个百分比，并没有统一的盈利保证。</p>
+  <p>成本包括适用的佣金、申赎费、转托管费、资金占用成本；ETF 还需计入组合证券交易、现金替代与退补款。
+  用实际成交价时，已经发生的滑点不再重复扣；用预计价时，要另估买卖价差和冲击。
+  已在 NAV 中计提的管理费、托管费等，也不能机械地再扣一次。
+  <a href="#source-fees">基金费用的扣取方式</a>。</p>
+  <p class="mpr-note"><strong>以下两个算例完全是假设。</strong>
+  金额、净值、成交价和费用均为教学设定，未使用观察表中任何基金的报价，也不代表实际费率、额度或收益。
+  两例均假设全部份额确认、全部成交，费用另列且不重复计入本金。</p>
+  <div class="mpr-grid">
+    <article class="mpr-card" id="premium-example">
+      <h3>假设一：溢价申购后卖出</h3>
+      <p>最终确认 10,000 份，申购本金 10,000 元；可卖时实际成交价 1.03 元，卖出收入 10,300 元；
+      全部额外成本假设合计 80 元。</p>
+      <p><strong>净差额：10,300 − 10,000 − 80 = 220 元。</strong></p>
+      <p>如果等到可卖时价格降为 1.00 元，假设成本仍为 80 元，
+      则 <strong>10,000 − 10,000 − 80 = −80 元</strong>。</p>
+      <small>原本看到溢价，仍可能在等待中变成亏损。</small>
+    </article>
+    <article class="mpr-card" id="discount-example">
+      <h3>假设二：折价买入后赎回</h3>
+      <p>以 0.97 元买入 10,000 份，买入本金 9,700 元；最终适用赎回净值 1.00 元，
+      扣费前赎回金额 10,000 元；全部额外成本假设合计 150 元。</p>
+      <p><strong>净差额：10,000 − 9,700 − 150 = 150 元。</strong></p>
+      <p>如果最终赎回净值降为 0.95 元，假设成本仍为 150 元，
+      则 <strong>9,500 − 9,700 − 150 = −350 元</strong>。</p>
+      <small>买入时的折价，不能锁定事后确认的赎回净值。</small>
+    </article>
+  </div>
+</section>
+
+<section class="mpr-section" id="product-checklist">
+  <h2>研究某只基金时，先查这些具体条件</h2>
+  <ol>
+    <li><strong>产品身份：</strong>在基金合同、招募说明书和产品资料概要中核对代码、份额类别、币种、上市市场；
+    封闭期或定期开放安排可能使当前申赎路径不成立。</li>
+    <li><strong>当日业务公告：</strong>分别查申购、赎回、转换、转托管的开放状态与限额，以及暂停、恢复、海外休市、
+    溢价风险提示和停复牌公告。历史状态不能替代今日公告。</li>
+    <li><strong>账户与渠道：</strong>向实际使用的券商或销售机构确认是否支持所需业务、转托管资料、截止时间、
+    份额可用日、持有期计算方式及到账安排。</li>
+    <li><strong>可成交规模与成本：</strong>买入看卖盘、卖出看买盘，按目标金额估算成交，而不是只看最后一笔价格；
+    查当前费率、短期赎回费和最低收费，考虑等待期间的价格或净值变化。</li>
+    <li><strong>ETF 与跨境补充：</strong>ETF 查当天 PCF、最小单位、现金替代与退补款；跨境产品另查估值时刻、汇率、
+    两地节假日和可用额度。IOPV 或估值数据缺失时，保留这一缺口。</li>
+  </ol>
+  <p>观察表中的“有价格、有净值、可计算偏离”只说明数据可比较；上述路径尚未核实，就不能把它当作可执行机会。
+  本页解释机制，不给具体基金下单结论。</p>
+</section>
+
+<section class="mpr-section" id="official-sources">
+  <h2>官方资料与适用范围</h2>
+  <p class="mpr-meta">资料核对日期：2026-11-09（新加坡时间）。投教文章用于理解机制；
+  实际操作仍需查具体产品当时有效的法律文件、业务公告和渠道规则。下列链接由点击后打开。</p>
+  <ul>
+    <li id="source-lof-prices"><a href="https://www.csrc.gov.cn/shenzhen/c105614/c7602051/content.shtml" target="_blank" rel="noopener noreferrer">深圳证监局：LOF 双价不同步，价格净值要分清</a>
+    （2025-08-22）——价格、净值和场外份额转场内的区别。</li>
+    <li id="source-sse-lof"><a href="https://www.sse.com.cn/lawandrules/sselawsrules2025/fund/trading/c/c_20250519_10779392.shtml" target="_blank" rel="noopener noreferrer">上交所：上市开放式基金业务指引</a>
+    ——沪市 LOF 的交易、申赎与转托管规则；页面标注为现行有效。</li>
+    <li id="source-szse-lof"><a href="https://www.szse.cn/www/investor/knowledge/t20210113_584216.html" target="_blank" rel="noopener noreferrer">深交所：投资者交易、申赎 LOF 应遵守哪些规定</a>
+    ——买入后可赎回、申购后可使用份额的区别。</li>
+    <li id="source-crossborder-trading"><a href="https://docs.static.szse.cn/www/lawrules/rule/fund/W020220610536157903323.pdf" target="_blank" rel="noopener noreferrer">深交所：基金交易和申购赎回实施细则（2022 年修订，PDF）</a>
+    ——第三十六条区分回转交易的产品与交易方式，第四十三条规定 LOF 的份额使用；不能推广成所有基金的通用时序。</li>
+    <li id="source-transfer"><a href="https://www.hongdefund.com/contents/2026/8/4-ed7e28c3373741b8ae80240073a3beda.html" target="_blank" rel="noopener noreferrer">泓德基金：如何办理基金跨系统转托管业务</a>
+    （2026-08-04）——具体产品的账户关联与渠道办理示例，不套用其办理天数到其他产品。</li>
+    <li id="source-share-class"><a href="https://www.cmfchina.com/web/fundnoticedetail/203494/index.html" target="_blank" rel="noopener noreferrer">招商基金：证券公司指数基金增加份额类别公告</a>
+    （2021-09-13）——历史示例说明同一基金不同类别可有不同上市、登记和转托管安排，不据此认定今日状态。</li>
+    <li id="source-etf-mechanism"><a href="https://www.sse.com.cn/assortment/fund/etf/question/" target="_blank" rel="noopener noreferrer">上交所：ETF 相关常见问题</a>
+    ——二级买卖与一级申赎、对价及交易机制。</li>
+    <li id="source-etf-costs"><a href="https://etf.sse.com.cn/fund/learning/strategy/c/5704303.shtml" target="_blank" rel="noopener noreferrer">上交所：ETF 瞬时套利策略</a>
+    ——PCF、最小申赎单位、现金替代和交易成本；文中案例的时序不套用到所有 ETF。</li>
+    <li id="source-iopv"><a href="https://www.sse.com.cn/lawandrules/sselawsrules2025/fund/listing/c/c_20250704_10783954.shtml" target="_blank" rel="noopener noreferrer">上交所：交易型开放式基金风险管理指引</a>
+    （2025-08-01 生效）——IOPV 计算异常与 ETF 申赎操作风险。</li>
+    <li id="source-qdii"><a href="https://edu.gffunds.com.cn/lcxt/zdjptzjhl/tzjhl1/202504/t20250418_413106.shtml" target="_blank" rel="noopener noreferrer">广发基金：QDII 基金交易规则说明</a>
+    （2025-04-18）——净值披露时差、两地假期和汇率影响，不套用统一确认或到账天数。</li>
+    <li id="source-fees"><a href="https://edu.gffunds.com.cn/lcxt/jjtzjc/jjtzjc5/202404/t20240411_391802.shtml" target="_blank" rel="noopener noreferrer">广发基金：基金费用说明</a>
+    ——申赎费用与从基金资产中计提的费用应分开理解，具体费率另查产品文件。</li>
+  </ul>
+  <p><a class="mpr-button" href="fund_tracking.html">返回基金价差观察</a></p>
+</section></main><!-- mpwb:after:start --></div><details class="mpwb-mobile-aux"><summary>工具与说明</summary><a href="method.html">口径与方法</a><a href="quiz.html">K 线练习</a></details></div><!-- mpwb:after:end --></body></html>
