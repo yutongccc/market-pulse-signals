@@ -1,75 +1,4 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>量化实验 · 市场脉搏</title><style>
-.mp-hub{--mh-ink:var(--mpwb-ink,#302a42);--mh-muted:var(--mpwb-muted,#7c7389);
-  --mh-line:var(--mpwb-line,#e7e2ef);--mh-purple:var(--mpwb-accent,#7756c9);
-  color:var(--mh-ink);font:14px/1.65 var(--mpwb-font,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif);
-  width:100%;max-width:var(--mpwb-content-max,1280px);margin:auto;min-width:0}
-.mpwb-content>.mp-hub{max-width:none}
-.mp-hub *{box-sizing:border-box}.mp-hub h1,.mp-hub h2,.mp-hub h3,.mp-hub p{margin:0}
-.mp-hub h1{font-size:24px;line-height:1.35;letter-spacing:-.3px;font-weight:650}
-.mp-hub h2{font-size:17px;line-height:1.5;font-weight:650}.mp-hub h3{font-size:15px;font-weight:600}
-.mp-hub a{color:var(--mh-purple);text-decoration:none}.mp-hub a:hover{text-decoration:underline}
-.mp-hub a:focus-visible{outline:2px solid var(--mh-purple);outline-offset:3px}
-.mp-hub-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:20px}
-.mp-hub-head>div{min-width:0}.mp-hub-head p{color:var(--mh-muted);margin-top:8px;font-size:12px}
-.mp-hub-kicker{font-size:12px;letter-spacing:1.5px;color:var(--mh-muted);margin-bottom:5px}
-.mp-hub-tag{font-size:12px;line-height:1.5;padding:5px 10px;border:1px solid var(--mh-line);
-  border-radius:8px;color:var(--mh-purple);background:var(--mpwb-accent-soft,#f0eafb);white-space:nowrap}
-.mp-hub-hero{background:var(--mpwb-accent-soft,#f0eafb);border:1px solid var(--mh-line);
-  border-radius:var(--mpwb-radius,12px);padding:20px;margin-bottom:20px;display:flex;gap:20px;align-items:center;justify-content:space-between}
-.mp-hub-hero h2{font-size:20px;color:var(--mh-ink);margin:5px 0 8px}.mp-hub-hero p{color:var(--mh-muted)}
-.mp-hub-section{margin-top:var(--mpwb-card-gap,20px)}
-.mp-hub-section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
-.mp-hub-muted{color:var(--mh-muted);font-size:12px}
-.mp-hub-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--mpwb-card-gap,20px)}
-.mp-hub-grid-two{grid-template-columns:repeat(2,minmax(0,1fr))}.mp-hub-index-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
-.mp-hub-card{background:var(--mpwb-surface,#fff);border:1px solid var(--mh-line);
-  border-radius:var(--mpwb-radius,12px);padding:20px;min-width:0}
-.mp-hub-index-grid .mp-hub-card{padding:18px 16px;display:flex;flex-direction:column;align-items:flex-start}
-.mp-hub-card p{color:var(--mh-muted);margin-top:8px}.mp-hub-card-title{font-size:13px;color:var(--mh-muted)}
-.mp-hub-value{display:block;font-size:24px;line-height:1.35;font-weight:650;font-variant-numeric:tabular-nums;margin:8px 0 4px;white-space:nowrap}
-.mp-hub-pct{font-size:13px;line-height:1.5;font-variant-numeric:tabular-nums}
-.mp-hub-up{color:#b64e70}.mp-hub-down{color:#287f70}.mp-hub-neutral{color:var(--mh-muted)}
-.mp-hub-meta{font-size:12px;color:var(--mh-muted);line-height:1.6;margin-top:14px;overflow-wrap:anywhere}
-.mp-hub-warning{color:#8a602a;font-size:12px;line-height:1.6;margin-top:8px}
-.mp-hub-note{background:var(--mpwb-accent-soft,#f0eafb);border:1px solid var(--mh-line);
-  border-radius:8px;padding:10px 12px;color:var(--mh-muted);font-size:12px;margin-top:14px}
-.mp-hub-section .mp-hub-note{margin-bottom:0}
-.mp-hub-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 12px;margin-top:16px}
-.mp-hub-metric span{font-size:12px;color:var(--mh-muted)}
-.mp-hub-metric strong{display:block;font-size:24px;line-height:1.5;font-weight:600;font-variant-numeric:tabular-nums}
-.mp-hub-breadth-bar{display:flex;overflow:hidden;gap:3px;height:7px;border-radius:6px;margin-top:18px}
-.mp-hub-breadth-bar span{min-width:0;border-radius:3px}
-.mp-hub-heatmap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:16px}
-.mp-hub-heat{padding:12px 8px;border-radius:8px;text-align:center;background:var(--mpwb-accent-soft,#f0eafb);font-size:12px}
-.mp-hub-heat strong{display:block;font-size:17px;margin-top:4px;font-weight:600}
-.mp-hub-heat.mp-hub-up{background:#fbeef2}.mp-hub-heat.mp-hub-down{background:#ecf7f3}
-.mp-hub-link{display:inline-flex;align-items:center;justify-content:center;gap:7px;margin-top:16px;
-  border:1px solid var(--mh-line);border-radius:8px;padding:7px 12px;min-height:36px;font-size:13px;
-  background:var(--mpwb-surface,#fff);transition:background .15s,border-color .15s}
-.mp-hub-link:hover{background:var(--mpwb-accent-soft,#f0eafb);border-color:var(--mh-purple);text-decoration:none!important}
-.mp-hub-link:after{content:"↗"}.mp-hub-list{list-style:none;margin:8px 0 0;padding:0}
-.mp-hub-list li{display:flex;gap:12px;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--mh-line)}
-.mp-hub-list li:last-child{border:0}.mp-hub-list a{min-width:0;overflow-wrap:anywhere}
-.mp-hub-list time{color:var(--mh-muted);font-size:12px;line-height:1.5;white-space:nowrap;
-  border:1px solid var(--mh-line);border-radius:6px;background:var(--mpwb-bg,#f6f5fa);padding:3px 7px}
-.mp-hub-empty{padding:24px 0;color:var(--mh-muted);text-align:center;font-size:13px}
-.mp-hub-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--mpwb-card-gap,20px);margin-top:20px}
-.mp-hub-steps span{font-size:12px;letter-spacing:.5px;color:var(--mh-purple)}.mp-hub-steps h3{margin:8px 0}
-.mp-hub-foot{margin:24px 0 4px!important;color:var(--mh-muted);font-size:12px}
-@media(max-width:1280px){.mp-hub-index-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:760px){.mp-hub-grid,.mp-hub-grid-two,.mp-hub-steps{grid-template-columns:1fr;gap:14px}
-  .mp-hub-index-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-  .mp-hub-head{gap:12px;margin-bottom:20px}.mp-hub h1{font-size:22px}.mp-hub-kicker{font-size:12px;letter-spacing:1px}
-  .mp-hub-head p{margin-top:7px}.mp-hub-tag{padding:4px 8px}
-  .mp-hub-hero{display:block;padding:16px}.mp-hub-card,.mp-hub-index-grid .mp-hub-card{padding:16px}
-  .mp-hub-section-title{align-items:baseline;flex-wrap:wrap;gap:4px 12px}
-  .mp-hub-value{font-size:22px}.mp-hub-meta{font-size:12px;line-height:1.6}
-  .mp-hub-list li{gap:8px}.mp-hub-list time{padding:3px 6px}.mp-hub-link{min-height:40px}}
-</style><!-- mpwb:style:start --><style id="mpwb-style">body.mpwb-body .mpwb-content .mp-hub-up{color:var(--mpwb-up)!important}
-body.mpwb-body .mpwb-content .mp-hub-down{color:var(--mpwb-down)!important}
-body.mpwb-body .mpwb-content .mp-hub-warning{color:var(--mpwb-warning)!important}
-body.mpwb-body .mpwb-content .mp-hub-heat.mp-hub-up{background:var(--mpwb-danger-bg)!important}
-body.mpwb-body .mpwb-content .mp-hub-heat.mp-hub-down{background:var(--mpwb-success-bg)!important}
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>量化实验 · 市场脉搏</title><style>.mp-hub{max-width:900px;font:15px/1.7 var(--mpwb-font);color:var(--mpwb-ink)}.mp-hub-head{margin-bottom:24px}.mp-hub h1{font-size:26px;margin:8px 0}.mp-hub-kicker,.mp-hub-tag,.mp-hub-muted{color:var(--mpwb-muted);font-size:13px}.mp-hub-link{display:inline-flex;padding:10px 16px;border:1px solid var(--mpwb-line);border-radius:8px;color:var(--mpwb-accent);text-decoration:none}</style><!-- mpwb:style:start --><style id="mpwb-style">
 
 body.mpwb-body{
   color-scheme:light;--mpwb-bg:#f6f8fa;--mpwb-surface:#fff;--mpwb-raised:#fff;
@@ -302,4 +231,4 @@ a.mpwb-nav-item:hover{background:var(--mpwb-hover);color:var(--mpwb-accent)!impo
     if (event.key === key) apply(event.newValue, false);
   });
 })();
-</script><!-- mpwb:theme:end --></head><body class="mpwb-body"><!-- mpwb:before:start --><a class="mpwb-skip" href="#mpwb-content">跳至页面内容</a><aside class="mpwb-sidebar" aria-label="工作台导航"><a class="mpwb-brand" href="hub.html"><span class="mpwb-brand-mark">m</span><span class="mpwb-brand-copy">Market Desk<small>市场脉搏 · 研究工作台</small></span></a><div class="mpwb-caption">工作台</div><nav class="mpwb-nav" aria-label="四个入口"><a class="mpwb-nav-item" href="hub.html"><span class="mpwb-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 19V5M4 19h16M8 15l4-5 4 2 4-7"/></svg></span><span>市场</span></a><a class="mpwb-nav-item" href="index.html"><span class="mpwb-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4M8 10.5h5M10.5 8v5"/></svg></span><span>标的研究</span></a><a class="mpwb-nav-item mpwb-active" href="strategy_archive.html" aria-current="page"><span class="mpwb-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3M8 15h8"/></svg></span><span>量化实验</span></a><a class="mpwb-nav-item" href="reports.html"><span class="mpwb-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h3M8 15h8M8 18h8"/><path d="M14 10h2v2h-2z"/></svg></span><span>报告与复盘</span></a></nav><details class="mpwb-aux"><summary>工具与说明</summary><a href="method.html">口径与方法</a><a href="quiz.html">K 线练习</a></details><div class="mpwb-sidebar-foot">数据时点与来源见各页<br>研究工具 · 保留独立口径</div></aside><div class="mpwb-main" data-mp-page="experiments.html"><header class="mpwb-topbar"><div class="mpwb-breadcrumb"><span class="mpwb-action-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5m5-5-5 5 5 5"/></svg></span><a href="strategy_archive.html">量化实验</a></div><div class="mpwb-theme-switch" role="group" aria-label="页面配色"><button type="button" data-mpwb-theme-choice="light" aria-pressed="true">浅色</button><button type="button" data-mpwb-theme-choice="dark" aria-pressed="false">深色</button></div></header><div class="mpwb-content" id="mpwb-content" tabindex="-1"><!-- mpwb:before:end --><main class="mp-hub"><div class="mp-hub-head"><div><div class="mp-hub-kicker">MARKET PULSE</div><h1>量化实验入口</h1><p>量化实验直接从已有回测开始；历史结果不表示策略正在运行。</p></div><span class="mp-hub-tag">入口已整合</span></div><p><a class="mp-hub-link" href="strategies.html">打开策略回测</a></p><p class="mp-hub-foot">市场脉搏 · 各项数据以标注的观察日期为准，研究结果不构成投资建议。</p></main><!-- mpwb:after:start --></div><details class="mpwb-mobile-aux"><summary>工具与说明</summary><a href="method.html">口径与方法</a><a href="quiz.html">K 线练习</a></details></div><!-- mpwb:after:end --><!-- product-updates:entry:start --><footer data-product-updates-entry style="padding:12px 20px 88px;text-align:center;font:13px/1.6 system-ui,sans-serif"><a style="color:inherit" href="updates.html">更新记录</a></footer><!-- product-updates:entry:end --></body></html>
+</script><!-- mpwb:theme:end --></head><body class="mpwb-body"><!-- mpwb:before:start --><a class="mpwb-skip" href="#mpwb-content">跳至页面内容</a><aside class="mpwb-sidebar" aria-label="工作台导航"><a class="mpwb-brand" href="hub.html"><span class="mpwb-brand-mark">m</span><span class="mpwb-brand-copy">Market Desk<small>市场脉搏 · 研究工作台</small></span></a><div class="mpwb-caption">工作台</div><nav class="mpwb-nav" aria-label="四个入口"><a class="mpwb-nav-item" href="hub.html"><span class="mpwb-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 19V5M4 19h16M8 15l4-5 4 2 4-7"/></svg></span><span>市场</span></a><a class="mpwb-nav-item" href="index.html"><span class="mpwb-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4M8 10.5h5M10.5 8v5"/></svg></span><span>标的研究</span></a><a class="mpwb-nav-item mpwb-active" href="strategy_archive.html" aria-current="page"><span class="mpwb-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3M8 15h8"/></svg></span><span>量化实验</span></a><a class="mpwb-nav-item" href="reports.html"><span class="mpwb-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h3M8 15h8M8 18h8"/><path d="M14 10h2v2h-2z"/></svg></span><span>报告与复盘</span></a></nav><details class="mpwb-aux"><summary>工具与说明</summary><a href="method.html">口径与方法</a><a href="quiz.html">K 线练习</a></details><div class="mpwb-sidebar-foot">数据时点与来源见各页<br>研究工具 · 保留独立口径</div></aside><div class="mpwb-main" data-mp-page="experiments.html"><header class="mpwb-topbar"><div class="mpwb-breadcrumb"><span class="mpwb-action-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5m5-5-5 5 5 5"/></svg></span><a href="strategy_archive.html">量化实验</a></div><div class="mpwb-theme-switch" role="group" aria-label="页面配色"><button type="button" data-mpwb-theme-choice="light" aria-pressed="true">浅色</button><button type="button" data-mpwb-theme-choice="dark" aria-pressed="false">深色</button></div></header><div class="mpwb-content" id="mpwb-content" tabindex="-1"><!-- mpwb:before:end --><main class="mp-hub"><div class="mp-hub-head"><div><div class="mp-hub-kicker">MARKET PULSE</div><h1>量化实验入口</h1><p>量化实验从策略与因子研究开始；历史结果不表示策略正在运行。</p></div><span class="mp-hub-tag">入口已整合</span></div><p><a class="mp-hub-link" href="strategy_archive.html">打开量化研究</a></p></main><!-- mpwb:after:start --></div><details class="mpwb-mobile-aux"><summary>工具与说明</summary><a href="method.html">口径与方法</a><a href="quiz.html">K 线练习</a></details></div><!-- mpwb:after:end --><!-- product-updates:entry:start --><footer data-product-updates-entry style="padding:12px 20px 88px;text-align:center;font:13px/1.6 system-ui,sans-serif"><a style="color:inherit" href="updates.html">更新记录</a></footer><!-- product-updates:entry:end --></body></html>
