@@ -301,12 +301,13 @@ a.mpwb-nav-item:hover{background:var(--mpwb-hover);color:var(--mpwb-accent)!impo
 <p class="mp-archive-intro">查找当前已归档的日报、周报与月报。这里只列已有文件，不表示每个交易日都已成功出报。</p>
 <form id="archive-filter" class="mp-archive-filter" aria-label="筛选报告" hidden novalidate><label>报告类型<select name="type"><option value="all">全部报告</option><option value="daily">全部日报</option><option value="am">早报</option><option value="pm">晚报</option><option value="weekly">周报</option><option value="monthly">月报</option></select></label><label>开始日期<input type="date" name="from"></label><label>结束日期<input type="date" name="to"></label><div class="archive-filter-actions"><button type="submit">应用筛选</button><button type="reset">重置</button></div></form>
 <p class="archive-filter-explainer">日报按报告日筛选；周报按周一至周日、月报按整月，覆盖期与所选日期有交集即显示，不代表发布日期。</p>
-<p id="archive-filter-status" class="archive-filter-status" role="status" aria-live="polite">共 30 篇已归档报告。</p>
+<p id="archive-filter-status" class="archive-filter-status" role="status" aria-live="polite">共 31 篇已归档报告。</p>
 <p id="archive-filter-error" class="archive-filter-error" role="alert" hidden></p>
 <noscript><p class="archive-filter-explainer">浏览器未启用脚本，下方完整列出已有报告；可按分类跳转阅读。</p></noscript>
 <nav class="mp-archive-types" aria-label="报告类型"><a href="#daily" data-archive-category="daily">日报</a><a href="#weekly" data-archive-category="weekly">周报</a><a href="#monthly" data-archive-category="monthly">月报</a></nav>
 <p id="archive-filter-empty" class="archive-filter-empty" hidden>没有符合条件的报告。可以扩大日期范围，或点重置查看全部。</p>
 <section id="daily" data-report-section><h2>日报</h2><ul>
+<li id="day-20261118" data-report-row><time class="mp-archive-date" datetime="2026-11-18">2026-11-18 周三</time><span class="mp-archive-links"><a href="daily/20261118-pm.html" data-report-type="pm" data-report-category="daily" data-report-start="2026-11-18" data-report-end="2026-11-18">晚报</a></span></li>
 <li id="day-20261117" data-report-row><time class="mp-archive-date" datetime="2026-11-17">2026-11-17 周二</time><span class="mp-archive-links"><a href="daily/20261117-pm.html" data-report-type="pm" data-report-category="daily" data-report-start="2026-11-17" data-report-end="2026-11-17">晚报</a></span></li>
 <li id="day-20261116" data-report-row><time class="mp-archive-date" datetime="2026-11-16">2026-11-16 周一</time><span class="mp-archive-links"><a href="daily/20261116-pm.html" data-report-type="pm" data-report-category="daily" data-report-start="2026-11-16" data-report-end="2026-11-16">晚报</a></span></li>
 <li id="day-20261111" data-report-row><time class="mp-archive-date" datetime="2026-11-11">2026-11-11 周三</time><span class="mp-archive-links"><a href="daily/20261111-am.html" data-report-type="am" data-report-category="daily" data-report-start="2026-11-11" data-report-end="2026-11-11">早报</a></span></li>
